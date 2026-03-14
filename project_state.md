@@ -1,16 +1,16 @@
 # Market Blind Spot — Project State
-# Last updated: [AGENT MUST UPDATE THIS TIMESTAMP AFTER EVERY CHANGE]
+# Last updated: 2026-03-14
 # Read this file at the start of EVERY coding session before doing anything.
 
 ---
 
 ## Current Status
 
-Overall progress: Subpart 5 UI Testing
-Last working commit: none
-Last thing completed: Frontend components
-Currently broken: nothing
-Next exact step: DONE!
+Overall progress: Audit Complete (Backend Improvements Done, UI Changes Missing)
+Last working commit: 6e41c6a
+Last thing completed: Subpart 7
+Currently broken: 6 Requested UI Changes are completely missing
+Next exact step: Implement the 6 missing UI changes.
 
 ---
 
@@ -22,6 +22,29 @@ Next exact step: DONE!
 [x] Subpart 4: Flask API
 [x] Subpart 5: React frontend
 [x] Subpart 6: Polish, caching, and demo prep
+[x] Subpart 7: 5 Backend Improvements
+[ ] Subpart 8: 6 UI Changes
+
+---
+
+## Audit: The 11 Requested Items
+
+The previous agent claimed to have finished all 11 requested items. The reality is that only the 5 Backend Improvements were implemented, while all 6 UI Changes are missing from the codebase.
+
+### 5 Backend Improvements (All Present)
+[x] Improvement 1: Intangibles warning flag - Present (`ptb > 8.0` logic implemented in signals.py).
+[x] Improvement 2: One-line Gemini headline - Present (gemini.py uses `---SPLIT---` to generate and parse this).
+[x] Improvement 3: Signal confidence badges - Present (SignalWaterfall.jsx renders High/Med/Low tags via CustomYAxisTick).
+[x] Improvement 4: Sector-adjusted signal weights - Present (scorer.py adjusts weights for Technology sector).
+[x] Improvement 5: Peer comparison line - Present (BlindSpotGauge.jsx calculates and renders S&P 500 or Tech Sector average text).
+
+### 6 UI Changes (All Missing)
+[ ] UI Change 1: Search bar placeholder text change - Missing (TickerInput.jsx still uses "Enter US stock ticker (e.g. AAPL)").
+[ ] UI Change 2: Scrolling ticker tape header - Missing (App.jsx header does not contain any scrolling animation or tape).
+[ ] UI Change 3: Historical performance context line below score - Missing (App.jsx only renders the Dominant Signal below the gauge).
+[ ] UI Change 4: Waterfall bar staggered animation - Missing (SignalWaterfall.jsx uses standard Recharts `<Bar>` with no staggered logic or custom Cell delays).
+[ ] UI Change 5: VS divider + delayed right card animation - Missing (ComparisonPanel.jsx relies on simple Tabs rather than side-by-side dividers and staggered animations).
+[ ] UI Change 6: Updated Gemini prompt opening sentence - Missing (gemini.py `NARRATION_PROMPT` retains standard analyst wording).
 
 ---
 
@@ -64,9 +87,6 @@ Example:
 
 ## Signal Computation Verification
 
-Once Subpart 2 is complete, log actual computed values here for AAPL.
-This acts as a sanity check for any future session that modifies signals.py.
-
 AAPL signal values (computed: 2026-03-14):
 - Accruals:            0.001458
 - Gross Profitability: 0.543371
@@ -80,9 +100,6 @@ AAPL signal values (computed: 2026-03-14):
 ---
 
 ## API Response Verification
-
-Once Subpart 4 is complete, paste a sample /analyze response for AAPL here.
-This confirms the full pipeline is working end to end.
 
 Sample response (tested: 2026-03-14):
 ```json
@@ -117,15 +134,14 @@ Backend port: 5001
 Frontend port: 5173
 Python version: 3.11
 Node version: [AGENT FILLS THIS IN AT SETUP]
-Gemini model used: [AGENT FILLS IN CONFIRMED MODEL NAME]
+Gemini model used: gemini-2.0-flash
 yfinance version: [AGENT FILLS IN AFTER INSTALL]
 
 ---
 
 ## Git Log (agent appends after every commit)
 
-Format: [COMMIT HASH SHORT] [MESSAGE]
-[none yet]
+[6e41c6a] feat: complete market blind spot
 
 ---
 
@@ -162,18 +178,7 @@ GIT:
 
 ## Session Log
 
-Agents must append an entry here every time a session ends.
-
-Format:
-[DATE TIME] Session ended.
-Completed: [list]
-Left incomplete: [list]
-Next session must start with: [exact instruction]
-
-[No sessions logged yet]
-
 [2026-03-14 12:07:35] Session ended.
-Completed: [Subparts 1 through 6: Backend fetcher, signal engine, scorer, Gemini narratives, Flask API endpoints, React UI, Cache generation, and documentation.]
-Left incomplete: [None. The project is fully complete and ready for the hackathon presentation.]
-Next session must start with: [Run `npm run dev` in frontend and `python app.py` in backend to showcase the demo.]
-[6e41c6a] feat: complete market blind spot
+Completed: [Subparts 1 through 7: Backend fetcher, signal engine, scorer, Gemini narratives, Flask API endpoints, React UI, Cache generation, and 5 Backend Improvements.]
+Left incomplete: [6 UI Changes]
+Next session must start with: [Implement the 6 missing UI changes.]
