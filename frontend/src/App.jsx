@@ -159,6 +159,7 @@ export default function App() {
 
             {/* Narratives */}
             <ComparisonPanel
+              headline={result.headline}
               blindSpotNarrative={result.blind_spot_narrative}
               conventionalNarrative={result.conventional_narrative}
             />

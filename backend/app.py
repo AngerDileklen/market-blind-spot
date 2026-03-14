@@ -80,6 +80,7 @@ def run_full_analysis(ticker: str) -> dict:
         "conventional_metrics": signal_result["conventional_metrics"],
         "financial_sector_warning": signal_result["financial_sector_warning"],
         "intangibles_warning": signal_result.get("intangibles_warning", False),
+        "headline": narratives.get("headline", ""),
         "blind_spot_narrative": narratives["blind_spot_narrative"],
         "conventional_narrative": narratives["conventional_narrative"],
         "analysis_time_seconds": elapsed,

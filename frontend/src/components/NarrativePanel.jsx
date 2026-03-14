@@ -1,4 +1,4 @@
-export default function NarrativePanel({ narrative, title, icon, accentColor }) {
+export default function NarrativePanel({ headline, narrative, title, icon, accentColor }) {
   if (!narrative) return null;
 
   const paragraphs = narrative.split('\n').filter((p) => p.trim());
@@ -11,6 +11,13 @@ export default function NarrativePanel({ narrative, title, icon, accentColor }) 
           {title}
         </h3>
       </div>
+      {headline && (
+        <div className="mb-6 animate-fade-in">
+          <p className="text-xl md:text-2xl font-bold" style={{ color: '#00d4aa' }}>
+            {headline}
+          </p>
+        </div>
+      )}
       <div className="narrative-text text-gray-300 text-[15px] leading-relaxed">
         {paragraphs.map((p, i) => (
           <p key={i} className="animate-fade-in" style={{ animationDelay: `${i * 0.15}s` }}>
