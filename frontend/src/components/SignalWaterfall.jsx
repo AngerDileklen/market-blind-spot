@@ -26,6 +26,42 @@ const WarningLabel = (props) => {
   return null;
 };
 
+const CustomYAxisTick = (props) => {
+  const { x, y, payload, data } = props;
+  const signalName = payload.value;
+  const signalData = data.find(d => d.name === signalName);
+  const contribution = signalData ? Math.abs(signalData.contribution) : 0;
+  
+  let label = "Low";
+  let bg = "#1f2937";
+  let textLight = "#9ca3af";
+  let border = "#374151";
+
+  if (contribution > 15) { 
+    label = "High"; 
+    bg = "#00d4aa20"; 
+    textLight = "#00d4aa";
+    border = "#00d4aa50";
+  } else if (contribution > 5) { 
+    label = "Med"; 
+    bg = "#fbbf2420"; 
+    textLight = "#fbbf24";
+    border = "#fbbf2450";
+  }
+
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text x={-45} y={0} dy={4} textAnchor="end" fill="#d1d5db" fontSize={13}>
+        {signalName}
+      </text>
+      <rect x={-35} y={-10} width={30} height={16} rx={4} fill={bg} stroke={border} strokeWidth={1} />
+      <text x={-20} y={0} dy={3} textAnchor="middle" fill={textLight} fontSize={10} fontWeight="bold">
+        {label}
+      </text>
+    </g>
+  );
+};
+
 const CustomTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
@@ -83,10 +119,10 @@ export default function SignalWaterfall({ signals, intangiblesWarning }) {
           <YAxis
             type="category"
             dataKey="name"
-            tick={{ fill: '#d1d5db', fontSize: 13 }}
+            tick={<CustomYAxisTick data={data} />}
             axisLine={false}
             tickLine={false}
-            width={120}
+            width={150}
           />
           <Tooltip content={<CustomTooltip />} cursor={false} />
           <ReferenceLine x={0} stroke="#232340" />
