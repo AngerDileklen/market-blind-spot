@@ -45,13 +45,15 @@ def run_full_analysis(ticker: str) -> dict:
     # Step 2: Compute signals
     signal_result = compute_all_signals(data)
 
-    # Step 3: Score
-    score_result = compute_blind_spot_score(signal_result["signals"])
-
-    # Step 4: Generate narratives
+    # Step 3: Sector
     info = data.get("info", {})
-    company_name = info.get("shortName", info.get("longName", ticker.upper()))
     sector = info.get("sector", "Unknown")
+
+    # Step 4: Score
+    score_result = compute_blind_spot_score(signal_result["signals"], sector)
+
+    # Step 5: Generate narratives
+    company_name = info.get("shortName", info.get("longName", ticker.upper()))
 
     narratives = generate_narratives(
         ticker=ticker.upper(),
@@ -79,6 +81,8 @@ def run_full_analysis(ticker: str) -> dict:
         "signals": score_result["signals"],
         "conventional_metrics": signal_result["conventional_metrics"],
         "financial_sector_warning": signal_result["financial_sector_warning"],
+        "intangibles_warning": signal_result.get("intangibles_warning", False),
+        "headline": narratives.get("headline", ""),
         "blind_spot_narrative": narratives["blind_spot_narrative"],
         "conventional_narrative": narratives["conventional_narrative"],
         "analysis_time_seconds": elapsed,
@@ -129,7 +133,7 @@ def demo():
         if requested and ticker != requested:
             continue
 
-        cache_file = os.path.join(DEMO_CACHE_DIR, f"{ticker}.json")
+        cache_file = os.path.join(DEMO_CACHE_DIR, f"{ticker}_full.json")
         if os.path.exists(cache_file):
             with open(cache_file, "r") as f:
                 results[ticker] = json.load(f)

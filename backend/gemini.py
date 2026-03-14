@@ -30,9 +30,14 @@ Dominant Signal: {dominant_signal}
 Sector: {sector}
 {financial_warning_text}
 
-TASK: Generate two narratives in a single response, separated by the exact delimiter "---SPLIT---".
+TASK: Generate three distinct sections in a single response, separated by the exact delimiter "---SPLIT---".
 
-===== NARRATIVE 1: BLIND SPOT NARRATIVE (3 paragraphs) =====
+===== PART 1: HEADLINE (1 sentence) =====
+Write one single sentence, maximum 20 words, stating the single most important insight from the signal data.
+Written in plain English, not academic language.
+Example: "Cash generation is outpacing reported earnings — the market may be discounting the wrong number."
+
+===== PART 2: BLIND SPOT NARRATIVE (3 paragraphs) =====
 
 Paragraph 1: State the Blind Spot Score of {score} and what it means for {company_name}. Name the dominant signal "{dominant_signal}" explicitly and explain its current reading.
 
@@ -50,7 +55,7 @@ Paragraph 3: Name exactly two specific things about {company_name} to monitor ov
 Tone: Senior equity analyst briefing a portfolio manager. Specific, confident, grounded in the data.
 NEVER say "buy" or "sell." NEVER use generic disclaimers. NEVER use phrases like "in conclusion" or "overall."
 
-===== NARRATIVE 2: CONVENTIONAL NARRATIVE (2 paragraphs) =====
+===== PART 3: CONVENTIONAL NARRATIVE (2 paragraphs) =====
 
 Write what a conventional sell-side analyst using ONLY P/E ratio ({pe_ratio}) and revenue growth ({revenue_growth}) would say about {company_name}.
 Sound reasonable but incomplete. Standard sell-side note style.
@@ -58,9 +63,11 @@ NEVER mention accruals, gross profitability, book-to-market, momentum, leverage 
 NEVER reference any of the 6 academic signals. Only discuss P/E, revenue growth, market position, and industry trends.
 
 ===== FORMAT =====
-Write Narrative 1 first, then "---SPLIT---", then Narrative 2.
+Write Part 1 first, then "---SPLIT---", then Part 2, then "---SPLIT---", then Part 3.
 No headers, no labels, just the narrative text.
 """
+
+FALLBACK_HEADLINE = "Analysis complete — reviewing key signal drivers against consensus."
 
 FALLBACK_BLIND_SPOT = "Market Blind Spot analysis detected notable signal divergences for this company. The Blind Spot Score suggests the market may be mispricing key fundamentals that academic research has shown to predict future returns. Further analysis is recommended to understand the specific drivers."
 
@@ -86,6 +93,7 @@ def generate_narratives(
     if not GEMINI_API_KEY or GEMINI_API_KEY == "your-key-here":
         logger.warning("Gemini API key not configured — returning placeholder narratives")
         return {
+            "headline": FALLBACK_HEADLINE,
             "blind_spot_narrative": FALLBACK_BLIND_SPOT,
             "conventional_narrative": FALLBACK_CONVENTIONAL,
         }
@@ -124,15 +132,27 @@ def generate_narratives(
 
         if "---SPLIT---" in full_text:
             parts = full_text.split("---SPLIT---")
-            blind_spot = parts[0].strip()
-            conventional = parts[1].strip() if len(parts) > 1 else FALLBACK_CONVENTIONAL
+            if len(parts) >= 3:
+                headline = parts[0].strip()
+                blind_spot = parts[1].strip()
+                conventional = parts[2].strip()
+            elif len(parts) == 2:
+                headline = FALLBACK_HEADLINE
+                blind_spot = parts[0].strip()
+                conventional = parts[1].strip()
+            else:
+                headline = FALLBACK_HEADLINE
+                blind_spot = parts[0].strip()
+                conventional = FALLBACK_CONVENTIONAL
         else:
+            headline = FALLBACK_HEADLINE
             blind_spot = full_text
             conventional = FALLBACK_CONVENTIONAL
 
         logger.info(f"Gemini narratives generated for {ticker} ({len(blind_spot)} + {len(conventional)} chars)")
 
         return {
+            "headline": headline,
             "blind_spot_narrative": blind_spot,
             "conventional_narrative": conventional,
         }
@@ -140,6 +160,7 @@ def generate_narratives(
     except Exception as e:
         logger.error(f"Gemini API call failed for {ticker}: {e}")
         return {
+            "headline": FALLBACK_HEADLINE,
             "blind_spot_narrative": FALLBACK_BLIND_SPOT,
             "conventional_narrative": FALLBACK_CONVENTIONAL,
         }

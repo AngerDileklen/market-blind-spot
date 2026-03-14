@@ -1,0 +1,63 @@
+{
+  "ticker": "NFLX",
+  "company_name": "Netflix, Inc.",
+  "sector": "Communication Services",
+  "blind_spot_score": 59.7,
+  "score_label": "Neutral",
+  "score_color": "#aaaaaa",
+  "dominant_signal": "Gross Profitability",
+  "signals": [
+    {
+      "name": "Gross Profitability",
+      "value": 0.394045,
+      "contribution": 9.9,
+      "direction": "bullish",
+      "description": "Gross profit per asset dollar signals durable competitive advantage. Novy-Marx (2013)."
+    },
+    {
+      "name": "Value Signal",
+      "value": 0.066142,
+      "contribution": 1.3,
+      "direction": "bullish",
+      "description": "Cheap assets relative to market price predict positive returns. Fama & French (1992) \u2014 using 1/P-to-B as practical proxy."
+    },
+    {
+      "name": "Leverage Risk",
+      "value": 0.260137,
+      "contribution": -0.8,
+      "direction": "bearish",
+      "description": "High debt-to-assets signals financial distress. Partially subsumed by book-to-market. Fama & French (1992)."
+    },
+    {
+      "name": "Accruals Anomaly",
+      "value": 0.015233,
+      "contribution": -0.5,
+      "direction": "bearish",
+      "description": "Earnings inflated above cash flow predict negative returns. Hribar & Collins (2002), Sloan (1996)."
+    },
+    {
+      "name": "Asset Growth Risk",
+      "value": 0.03667,
+      "contribution": -0.2,
+      "direction": "bearish",
+      "description": "Aggressive asset expansion predicts underperformance. Cooper, Gulen & Schill (2008)."
+    },
+    {
+      "name": "Price Momentum",
+      "value": 0.004977,
+      "contribution": 0.0,
+      "direction": "bullish",
+      "description": "12-month winners continue to outperform. Skip-month rule applied. Jegadeesh & Titman (1993)."
+    }
+  ],
+  "conventional_metrics": {
+    "pe_ratio": 37.671936,
+    "revenue_growth": 0.176
+  },
+  "financial_sector_warning": false,
+  "intangibles_warning": true,
+  "headline": "Analysis complete \u2014 reviewing key signal drivers against consensus.",
+  "blind_spot_narrative": "Market Blind Spot analysis detected notable signal divergences for this company. The Blind Spot Score suggests the market may be mispricing key fundamentals that academic research has shown to predict future returns. Further analysis is recommended to understand the specific drivers.",
+  "conventional_narrative": "Based on standard valuation metrics, this company presents a mixed picture. Revenue growth and P/E ratios suggest the market has priced in near-term expectations, though investors should monitor upcoming earnings for confirmation of current trends.",
+  "analysis_time_seconds": 0.38
+}

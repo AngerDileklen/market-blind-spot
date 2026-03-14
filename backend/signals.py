@@ -235,8 +235,12 @@ def compute_all_signals(data: dict) -> dict:
         "revenue_growth": info.get("revenueGrowth"),
     }
 
+    ptb = info.get("priceToBook")
+    intangibles_warning = bool(ptb is not None and ptb > 8.0)
+
     return {
         "signals": signals,
         "financial_sector_warning": financial_warning,
+        "intangibles_warning": intangibles_warning,
         "conventional_metrics": conventional_metrics,
     }

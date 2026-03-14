@@ -115,6 +115,7 @@ export default function App() {
                   score={result.blind_spot_score}
                   label={result.score_label}
                   color={result.score_color}
+                  sector={result.sector}
                 />
                 <p className="text-sm text-gray-500 mt-4">
                   Dominant signal:{' '}
@@ -123,7 +124,7 @@ export default function App() {
               </div>
 
               {/* Right: Waterfall */}
-              <SignalWaterfall signals={result.signals} />
+              <SignalWaterfall signals={result.signals} intangiblesWarning={result.intangibles_warning} />
             </div>
 
             {/* Conventional Metrics */}
@@ -159,6 +160,7 @@ export default function App() {
 
             {/* Narratives */}
             <ComparisonPanel
+              headline={result.headline}
               blindSpotNarrative={result.blind_spot_narrative}
               conventionalNarrative={result.conventional_narrative}
             />

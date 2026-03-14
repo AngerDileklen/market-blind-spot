@@ -49,7 +49,7 @@ def get_score_label(score: float) -> tuple:
     return "Strong Overpriced Signal", "#ff4d4d"
 
 
-def compute_blind_spot_score(raw_signals: dict) -> dict:
+def compute_blind_spot_score(raw_signals: dict, sector: str = "") -> dict:
     """Compute the Blind Spot Score from raw signal values.
 
     Steps:
@@ -64,9 +64,14 @@ def compute_blind_spot_score(raw_signals: dict) -> dict:
     winsorized = winsorize_signals(raw_signals)
     logger.info(f"Winsorized signals: {winsorized}")
 
+    weights = SIGNAL_WEIGHTS.copy()
+    if sector.lower() == "technology":
+        weights["momentum"] = 0.35
+        weights["book_to_market"] = 0.05
+
     contributions = {}
     for key, value in winsorized.items():
-        weight = SIGNAL_WEIGHTS.get(key, 0)
+        weight = weights.get(key, 0)
         contribution = weight * value * 100
         contributions[key] = {
             "name": SIGNAL_NAMES.get(key, key),

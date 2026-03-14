@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import NarrativePanel from './NarrativePanel';
 
-export default function ComparisonPanel({ blindSpotNarrative, conventionalNarrative }) {
+export default function ComparisonPanel({ headline, blindSpotNarrative, conventionalNarrative }) {
   const [activeTab, setActiveTab] = useState('blind-spot');
 
   if (!blindSpotNarrative && !conventionalNarrative) return null;
@@ -33,6 +33,7 @@ export default function ComparisonPanel({ blindSpotNarrative, conventionalNarrat
       {/* Active Panel */}
       {activeTab === 'blind-spot' ? (
         <NarrativePanel
+          headline={headline}
           narrative={blindSpotNarrative}
           title="Blind Spot Analysis"
           icon="🔍"
