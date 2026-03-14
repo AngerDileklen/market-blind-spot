@@ -45,13 +45,15 @@ def run_full_analysis(ticker: str) -> dict:
     # Step 2: Compute signals
     signal_result = compute_all_signals(data)
 
-    # Step 3: Score
-    score_result = compute_blind_spot_score(signal_result["signals"])
-
-    # Step 4: Generate narratives
+    # Step 3: Sector
     info = data.get("info", {})
-    company_name = info.get("shortName", info.get("longName", ticker.upper()))
     sector = info.get("sector", "Unknown")
+
+    # Step 4: Score
+    score_result = compute_blind_spot_score(signal_result["signals"], sector)
+
+    # Step 5: Generate narratives
+    company_name = info.get("shortName", info.get("longName", ticker.upper()))
 
     narratives = generate_narratives(
         ticker=ticker.upper(),
