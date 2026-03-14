@@ -1,0 +1,61 @@
+{
+  "ticker": "TSLA",
+  "company_name": "Tesla, Inc.",
+  "sector": "Consumer Cyclical",
+  "blind_spot_score": 64.8,
+  "score_label": "Moderate Underpriced Signal",
+  "score_color": "#66e0c8",
+  "dominant_signal": "Price Momentum",
+  "signals": [
+    {
+      "name": "Price Momentum",
+      "value": 0.84897,
+      "contribution": 8.5,
+      "direction": "bullish",
+      "description": "12-month winners continue to outperform. Skip-month rule applied. Jegadeesh & Titman (1993)."
+    },
+    {
+      "name": "Gross Profitability",
+      "value": 0.124044,
+      "contribution": 3.1,
+      "direction": "bullish",
+      "description": "Gross profit per asset dollar signals durable competitive advantage. Novy-Marx (2013)."
+    },
+    {
+      "name": "Accruals Anomaly",
+      "value": -0.084294,
+      "contribution": 3.0,
+      "direction": "bullish",
+      "description": "Earnings inflated above cash flow predict negative returns. Hribar & Collins (2002), Sloan (1996)."
+    },
+    {
+      "name": "Value Signal",
+      "value": 0.055974,
+      "contribution": 1.1,
+      "direction": "bullish",
+      "description": "Cheap assets relative to market price predict positive returns. Fama & French (1992) \u2014 using 1/P-to-B as practical proxy."
+    },
+    {
+      "name": "Asset Growth Risk",
+      "value": 0.12891,
+      "contribution": -0.6,
+      "direction": "bearish",
+      "description": "Aggressive asset expansion predicts underperformance. Cooper, Gulen & Schill (2008)."
+    },
+    {
+      "name": "Leverage Risk",
+      "value": 0.10681,
+      "contribution": -0.3,
+      "direction": "bearish",
+      "description": "High debt-to-assets signals financial distress. Partially subsumed by book-to-market. Fama & French (1992)."
+    }
+  ],
+  "conventional_metrics": {
+    "pe_ratio": 355.63635,
+    "revenue_growth": -0.031
+  },
+  "financial_sector_warning": false,
+  "blind_spot_narrative": "Market Blind Spot analysis detected notable signal divergences for this company. The Blind Spot Score suggests the market may be mispricing key fundamentals that academic research has shown to predict future returns. Further analysis is recommended to understand the specific drivers.",
+  "conventional_narrative": "Based on standard valuation metrics, this company presents a mixed picture. Revenue growth and P/E ratios suggest the market has priced in near-term expectations, though investors should monitor upcoming earnings for confirmation of current trends.",
+  "analysis_time_seconds": 0.22
+}

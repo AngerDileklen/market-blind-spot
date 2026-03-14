@@ -129,7 +129,7 @@ def demo():
         if requested and ticker != requested:
             continue
 
-        cache_file = os.path.join(DEMO_CACHE_DIR, f"{ticker}.json")
+        cache_file = os.path.join(DEMO_CACHE_DIR, f"{ticker}_full.json")
         if os.path.exists(cache_file):
             with open(cache_file, "r") as f:
                 results[ticker] = json.load(f)

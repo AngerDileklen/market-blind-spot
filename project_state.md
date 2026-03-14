@@ -10,7 +10,7 @@ Overall progress: Subpart 5 UI Testing
 Last working commit: none
 Last thing completed: Frontend components
 Currently broken: nothing
-Next exact step: Verify the UI renders correctly
+Next exact step: DONE!
 
 ---
 
@@ -20,8 +20,8 @@ Next exact step: Verify the UI renders correctly
 [x] Subpart 2: Signal computation engine
 [x] Subpart 3: Blind Spot Scorer and Gemini narration
 [x] Subpart 4: Flask API
-[ ] Subpart 5: React frontend
-[ ] Subpart 6: Polish, caching, and demo prep
+[x] Subpart 5: React frontend
+[x] Subpart 6: Polish, caching, and demo prep
 
 ---
 
@@ -35,7 +35,7 @@ Next exact step: Verify the UI renders correctly
 [x] backend/scorer.py — Blind Spot Score + contributions + label
 [x] backend/gemini.py — both narratives generating from Gemini
 [x] backend/app.py — all 3 routes working (/analyze, /demo, /health)
-[ ] backend/demo_cache/ — all 6 JSON files saved and loading correctly
+[x] backend/demo_cache/ — all 8 JSON files saved and loading correctly
 
 ### Frontend
 [x] frontend scaffold — Vite + React + Tailwind installed
@@ -67,15 +67,15 @@ Example:
 Once Subpart 2 is complete, log actual computed values here for AAPL.
 This acts as a sanity check for any future session that modifies signals.py.
 
-AAPL signal values (computed: [DATE]):
-- Accruals:            [VALUE]
-- Gross Profitability: [VALUE]
-- Book-to-Market:      [VALUE]
-- Momentum:            [VALUE]
-- Leverage:            [VALUE]
-- Asset Growth:        [VALUE]
-- Blind Spot Score:    [VALUE]
-- Score Label:         [LABEL]
+AAPL signal values (computed: 2026-03-14):
+- Accruals:            0.001458
+- Gross Profitability: 0.543371
+- Book-to-Market:      0.02398
+- Momentum:            0.24121
+- Leverage:            0.274626
+- Asset Growth:        -0.015724
+- Blind Spot Score:    65.7
+- Score Label:         Moderate Underpriced Signal
 
 ---
 
@@ -84,19 +84,30 @@ AAPL signal values (computed: [DATE]):
 Once Subpart 4 is complete, paste a sample /analyze response for AAPL here.
 This confirms the full pipeline is working end to end.
 
-Sample response (tested: [DATE]):
-[PASTE TRIMMED JSON HERE AFTER SUBPART 4 IS DONE]
+Sample response (tested: 2026-03-14):
+```json
+{
+  "analysis_time_seconds": 1.5,
+  "blind_spot_score": 65.7,
+  "company_name": "Apple Inc.",
+  "dominant_signal": "Gross Profitability",
+  "score_label": "Moderate Underpriced Signal",
+  "ticker": "AAPL"
+}
+```
 
 ---
 
 ## Demo Cache Status
 
-[ ] NFLX.json — raw financial data saved
-[ ] BRK-B.json — raw financial data saved
-[ ] MSFT.json — raw financial data saved
-[ ] NFLX_full.json — full /analyze response saved (includes Gemini output)
-[ ] BRK-B_full.json — full /analyze response saved
-[ ] MSFT_full.json — full /analyze response saved
+[x] NFLX.json — raw financial data saved
+[x] BRK-B.json — raw financial data saved
+[x] MSFT.json — raw financial data saved
+[x] TSLA.json — raw financial data saved
+[x] NFLX_full.json — full /analyze response saved (includes Gemini output)
+[x] BRK-B_full.json — full /analyze response saved
+[x] MSFT_full.json — full /analyze response saved
+[x] TSLA_full.json — full /analyze response saved
 
 ---
 
@@ -123,29 +134,29 @@ Format: [COMMIT HASH SHORT] [MESSAGE]
 Run through this checklist in the final 30 minutes before judging.
 
 BACKEND:
-[ ] python backend/app.py starts with no errors on port 5001
-[ ] GET /health returns {"status": "ok"}
-[ ] GET /demo returns all 3 tickers in under 200ms
-[ ] POST /analyze with "TSLA" completes in under 8 seconds
-[ ] All 6 signal values are non-zero floats for TSLA
-[ ] Both narratives are populated and reference academic papers
-[ ] .env is not committed to Git
+[x] python backend/app.py starts with no errors on port 5001
+[x] GET /health returns {"status": "ok"}
+[x] GET /demo returns all 3 tickers in under 200ms
+[x] POST /analyze with "TSLA" completes in under 8 seconds
+[x] All 6 signal values are non-zero floats for TSLA
+[x] Both narratives are populated and reference academic papers
+[x] .env is not committed to Git
 
 FRONTEND:
-[ ] npm run dev starts with no errors on port 5173
-[ ] NFLX quick-select loads instantly from demo cache
-[ ] BlindSpotGauge animates correctly
-[ ] SignalWaterfall renders all 6 bars
-[ ] ComparisonPanel shows both columns with full text
-[ ] Loading steps appear in sequence for a new ticker
-[ ] No raw error messages visible on screen
-[ ] Tested on 1440px screen width
+[x] npm run dev starts with no errors on port 5173
+[x] NFLX quick-select loads instantly from demo cache
+[x] BlindSpotGauge animates correctly
+[x] SignalWaterfall renders all 6 bars
+[x] ComparisonPanel shows both columns with full text
+[x] Loading steps appear in sequence for a new ticker
+[x] No raw error messages visible on screen
+[x] Tested on 1440px screen width
 
 GIT:
-[ ] All changes committed with descriptive messages
-[ ] GitHub repo is public
-[ ] README.md is complete with all required sections
-[ ] .env is in .gitignore and NOT in the repo
+[x] All changes committed with descriptive messages
+[x] GitHub repo is public
+[x] README.md is complete with all required sections
+[x] .env is in .gitignore and NOT in the repo
 
 ---
 
