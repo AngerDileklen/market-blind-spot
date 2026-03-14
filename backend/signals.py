@@ -68,7 +68,7 @@ def check_financial_sector(data: dict) -> bool:
     return False
 
 
-def compute_accruals(data: dict) -> float:
+def compute_accruals(data: dict) -> tuple[float, bool]:
     """Signal 1: Accruals-to-Assets.
 
     Formula: (Net Income - Operating Cash Flow) / Average Total Assets
@@ -83,20 +83,20 @@ def compute_accruals(data: dict) -> float:
 
         if any(v is None for v in [net_income, op_cf, total_assets, total_assets_prev]):
             logger.warning(f"Missing data for accruals computation, ticker={data.get('ticker')}")
-            return 0.0
+            return 0.0, True
 
         avg_assets = (total_assets + total_assets_prev) / 2
         if avg_assets == 0:
-            return 0.0
+            return 0.0, True
 
         accruals = (net_income - op_cf) / avg_assets
-        return accruals
+        return accruals, False
     except Exception as e:
         logger.warning(f"Accruals computation failed: {e}")
-        return 0.0
+        return 0.0, True
 
 
-def compute_gross_profitability(data: dict) -> float:
+def compute_gross_profitability(data: dict) -> tuple[float, bool]:
     """Signal 2: Gross Profitability.
 
     Formula: Gross Profit / Total Assets (current year, NOT lagged)
@@ -108,18 +108,18 @@ def compute_gross_profitability(data: dict) -> float:
 
         if any(v is None for v in [gross_profit, total_assets]):
             logger.warning(f"Missing data for gross profitability, ticker={data.get('ticker')}")
-            return 0.0
+            return 0.0, True
 
         if total_assets == 0:
-            return 0.0
+            return 0.0, True
 
-        return gross_profit / total_assets
+        return gross_profit / total_assets, False
     except Exception as e:
         logger.warning(f"Gross profitability computation failed: {e}")
-        return 0.0
+        return 0.0, True
 
 
-def compute_book_to_market(data: dict) -> float:
+def compute_book_to_market(data: dict) -> tuple[float, bool]:
     """Signal 3: Book-to-Market.
 
     Formula: 1 / priceToBook (from yfinance info dict)
@@ -129,15 +129,15 @@ def compute_book_to_market(data: dict) -> float:
         ptb = data.get("info", {}).get("priceToBook")
         if ptb is None or ptb <= 0:
             logger.warning(f"Missing/invalid priceToBook for ticker={data.get('ticker')}")
-            return 0.0
+            return 0.0, True
 
-        return 1.0 / ptb
+        return 1.0 / ptb, False
     except Exception as e:
         logger.warning(f"Book-to-market computation failed: {e}")
-        return 0.0
+        return 0.0, True
 
 
-def compute_momentum(data: dict) -> float:
+def compute_momentum(data: dict) -> tuple[float, bool]:
     """Signal 4: 12-1 Month Momentum.
 
     Formula: (Price_t-44 - Price_t-252) / Price_t-252
@@ -148,22 +148,22 @@ def compute_momentum(data: dict) -> float:
         hist = data.get("hist_close", [])
         if len(hist) < 260:
             logger.warning(f"Insufficient price history for momentum: {len(hist)} points, need 260, ticker={data.get('ticker')}")
-            return 0.0
+            return 0.0, True
 
         price_end = hist[-44]
         price_start = hist[-252]
 
         if price_start is None or price_start <= 0:
-            return 0.0
+            return 0.0, True
 
         momentum = (price_end - price_start) / price_start
-        return momentum
+        return momentum, False
     except Exception as e:
         logger.warning(f"Momentum computation failed: {e}")
-        return 0.0
+        return 0.0, True
 
 
-def compute_leverage(data: dict) -> float:
+def compute_leverage(data: dict) -> tuple[float, bool]:
     """Signal 5: Leverage.
 
     Formula: Total Debt / Total Assets
@@ -174,22 +174,22 @@ def compute_leverage(data: dict) -> float:
     try:
         total_assets = get_val(data["balance_sheet"], "Total Assets", 0)
         if total_assets is None or total_assets == 0:
-            return 0.0
+            return 0.0, True
 
         total_debt = get_val(data["balance_sheet"], "Total Debt", 0)
         if total_debt is None:
             total_debt = get_val(data["balance_sheet"], "Long Term Debt", 0)
         if total_debt is None:
             logger.warning(f"No debt data for leverage, ticker={data.get('ticker')}")
-            return 0.0
+            return 0.0, True
 
-        return total_debt / total_assets
+        return total_debt / total_assets, False
     except Exception as e:
         logger.warning(f"Leverage computation failed: {e}")
-        return 0.0
+        return 0.0, True
 
 
-def compute_asset_growth(data: dict) -> float:
+def compute_asset_growth(data: dict) -> tuple[float, bool]:
     """Signal 6: Asset Growth.
 
     Formula: (Total Assets_t - Total Assets_t-1) / Total Assets_t-1
@@ -201,15 +201,15 @@ def compute_asset_growth(data: dict) -> float:
 
         if any(v is None for v in [total_assets, total_assets_prev]):
             logger.warning(f"Missing data for asset growth, ticker={data.get('ticker')}")
-            return 0.0
+            return 0.0, True
 
         if total_assets_prev == 0:
-            return 0.0
+            return 0.0, True
 
-        return (total_assets - total_assets_prev) / total_assets_prev
+        return (total_assets - total_assets_prev) / total_assets_prev, False
     except Exception as e:
         logger.warning(f"Asset growth computation failed: {e}")
-        return 0.0
+        return 0.0, True
 
 
 def compute_all_signals(data: dict) -> dict:
@@ -220,13 +220,19 @@ def compute_all_signals(data: dict) -> dict:
     """
     financial_warning = check_financial_sector(data)
 
-    signals = {
+    computed = {
         "accruals": compute_accruals(data),
         "gross_profitability": compute_gross_profitability(data),
         "book_to_market": compute_book_to_market(data),
         "momentum": compute_momentum(data),
         "leverage": compute_leverage(data),
         "asset_growth": compute_asset_growth(data),
+    }
+
+    signals = {key: value for key, (value, _used_fallback) in computed.items()}
+    signal_confidence = {
+        key: ("low" if used_fallback else "high")
+        for key, (_value, used_fallback) in computed.items()
     }
 
     info = data.get("info", {})
@@ -240,6 +246,7 @@ def compute_all_signals(data: dict) -> dict:
 
     return {
         "signals": signals,
+        "signal_confidence": signal_confidence,
         "financial_sector_warning": financial_warning,
         "intangibles_warning": intangibles_warning,
         "conventional_metrics": conventional_metrics,

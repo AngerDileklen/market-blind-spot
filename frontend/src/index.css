@@ -57,6 +57,22 @@ body {
   animation-delay: var(--bar-delay, 0s);
 }
 
+@keyframes barStaggerIn {
+  from {
+    transform: scaleX(0);
+    opacity: 0.35;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.85;
+  }
+}
+
+.signal-bar-stagger {
+  animation: barStaggerIn 520ms ease-out both;
+  transform-box: fill-box;
+}
+
 /* ===== Loading Spinner ===== */
 @keyframes spin-gradient {
   to { transform: rotate(360deg); }
@@ -114,4 +130,47 @@ body {
 .comparison-tab:not(.active):hover {
   color: #9ca3af;
   background: rgba(255, 255, 255, 0.06);
+}
+
+/* ===== Ticker Tape ===== */
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.ticker-tape-wrap {
+  overflow: hidden;
+  padding: 0.45rem 0;
+}
+
+.ticker-tape-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: tickerScroll 18s linear infinite;
+}
+
+.ticker-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-right: 1.25rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ticker-symbol {
+  color: #9ca3af;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.ticker-score {
+  color: #00d4aa;
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }

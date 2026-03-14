@@ -11,6 +11,7 @@ Uses google-genai SDK with the most advanced available Gemini model.
 import json
 import logging
 import os
+import re
 
 from dotenv import load_dotenv
 from google import genai
@@ -40,6 +41,7 @@ Example: "Cash generation is outpacing reported earnings — the market may be d
 ===== PART 2: BLIND SPOT NARRATIVE (3 paragraphs) =====
 
 Paragraph 1: State the Blind Spot Score of {score} and what it means for {company_name}. Name the dominant signal "{dominant_signal}" explicitly and explain its current reading.
+The opening sentence MUST include a specific number and MUST NOT start with "This company" or "The analysis shows".
 
 Paragraph 2: Explain why the market historically fails to price this signal. Use THESE EXACT ACADEMIC CITATIONS based on the dominant signal:
 - If Accruals: "Hribar and Collins (2002) cash-flow approach to the accruals anomaly originally documented by Sloan (1996)"
@@ -72,6 +74,48 @@ FALLBACK_HEADLINE = "Analysis complete — reviewing key signal drivers against 
 FALLBACK_BLIND_SPOT = "Market Blind Spot analysis detected notable signal divergences for this company. The Blind Spot Score suggests the market may be mispricing key fundamentals that academic research has shown to predict future returns. Further analysis is recommended to understand the specific drivers."
 
 FALLBACK_CONVENTIONAL = "Based on standard valuation metrics, this company presents a mixed picture. Revenue growth and P/E ratios suggest the market has priced in near-term expectations, though investors should monitor upcoming earnings for confirmation of current trends."
+
+
+def _sanitize_headline(headline: str, score: float, dominant_signal: str) -> str:
+    text = (headline or "").strip().replace("\n", " ")
+    text = re.sub(r"\s+", " ", text)
+
+    if not text:
+        text = f"Blind Spot Score {score:.1f}: {dominant_signal} is driving the current market disconnect."
+
+    if not re.search(r"\d", text):
+        text = f"Blind Spot Score {score:.1f}: {text}"
+
+    words = text.split()
+    if len(words) > 20:
+        text = " ".join(words[:20]).rstrip(".,;:!?") + "."
+
+    return text
+
+
+def _sanitize_blind_spot_opening(narrative: str, score: float, company_name: str, dominant_signal: str) -> str:
+    text = (narrative or "").strip()
+    if not text:
+        return text
+
+    stripped = text.lstrip()
+    lower = stripped.lower()
+    starts_forbidden = lower.startswith("this company") or lower.startswith("the analysis shows")
+    has_number = re.search(r"\d", stripped) is not None
+
+    if not starts_forbidden and has_number:
+        return text
+
+    replacement = (
+        f"Blind Spot Score {score:.1f} highlights {dominant_signal} as the key mispricing signal for {company_name}."
+    )
+
+    sentence_match = re.search(r"[^.!?]*[.!?]", stripped)
+    if sentence_match:
+        first_sentence = sentence_match.group(0)
+        return text.replace(first_sentence, replacement, 1)
+
+    return replacement
 
 
 def generate_narratives(
@@ -148,6 +192,9 @@ def generate_narratives(
             headline = FALLBACK_HEADLINE
             blind_spot = full_text
             conventional = FALLBACK_CONVENTIONAL
+
+        headline = _sanitize_headline(headline, score, dominant_signal)
+        blind_spot = _sanitize_blind_spot_opening(blind_spot, score, company_name, dominant_signal)
 
         logger.info(f"Gemini narratives generated for {ticker} ({len(blind_spot)} + {len(conventional)} chars)")
 

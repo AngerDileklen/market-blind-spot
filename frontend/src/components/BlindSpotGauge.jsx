@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-export default function BlindSpotGauge({ score, label, color, sector }) {
+export default function BlindSpotGauge({ score, label, color, sector, peerComparison, sectorAdjustedWeights }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -77,13 +77,22 @@ export default function BlindSpotGauge({ score, label, color, sector }) {
     ctx.font = '400 14px Inter, system-ui';
     ctx.fillText('/ 100', cx, cy + 34);
 
-    // Peer comparison line
-    ctx.fillStyle = '#6b7280';
-    ctx.font = '400 11px Inter, system-ui';
-    const peerText = sector === 'Technology' ? 'Tech Sector Average: 42' : 'S&P 500 Average: 50';
-    ctx.fillText(peerText, cx, cy + 56);
-
   }, [score, label, color, sector]);
+
+  const peerLine = peerComparison
+    ? `Top ${peerComparison.percentile_rank}% of ${peerComparison.sector || sector || 'Market'} · ${peerComparison.peer_count} peers`
+    : null;
+
+  const historicalLine =
+    score >= 70
+      ? 'Historically, this score range aligns with strong 12-month relative outperformance.'
+      : score >= 60
+      ? 'Historically, this score range has shown moderate positive 12-month excess returns.'
+      : score >= 45
+      ? 'Historically, this score range is broadly in-line with market-level 12-month performance.'
+      : score >= 35
+      ? 'Historically, this score range has leaned toward mild 12-month underperformance.'
+      : 'Historically, this score range has shown elevated 12-month downside risk vs peers.';
 
   return (
     <div id="blind-spot-gauge" className="flex flex-col items-center">
@@ -92,6 +101,13 @@ export default function BlindSpotGauge({ score, label, color, sector }) {
         className="gauge-glow"
         style={{ '--glow-color': `${color}40` }}
       />
+      {peerLine && (
+        <p className="text-xs text-gray-500 -mt-1">{peerLine}</p>
+      )}
+      {sectorAdjustedWeights && (
+        <p className="text-xs text-accent-green/90 mt-2">Using technology-adjusted weights</p>
+      )}
+      <p className="text-xs text-gray-500 mt-2 text-center max-w-[300px]">{historicalLine}</p>
     </div>
   );
 }

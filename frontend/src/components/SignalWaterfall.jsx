@@ -10,20 +10,41 @@ import {
   LabelList,
 } from 'recharts';
 
-const WarningLabel = (props) => {
+const BadgeLabel = (props) => {
   const { x, y, width, index, data, intangiblesWarning } = props;
   const d = data[index];
-  if (intangiblesWarning && d.name === 'Value') {
-    return (
-      <foreignObject x={x + width + 8} y={y - 4} width={250} height={50}>
-        <div className="flex items-start gap-1 p-1 rounded bg-amber-500/10 border border-amber-500/30 text-[10px] text-amber-400 leading-tight backdrop-blur-sm z-10 w-[240px]">
-          <span className="shrink-0 text-amber-500">⚠</span>
-          <span>Asset-light company — book value understates true assets. Accruals and gross profitability are the dominant signals.</span>
-        </div>
-      </foreignObject>
-    );
+  if (!d) return null;
+
+  const showIntangibles = intangiblesWarning && d.name === 'Value';
+  const showLowData = d.confidence === 'low';
+
+  if (!showIntangibles && !showLowData) {
+    return null;
   }
-  return null;
+
+  let badgeX = x + Math.max(width, 0) + 8;
+  const badgeY = y - 8;
+
+  return (
+    <g>
+      {showIntangibles && (
+        <>
+          <rect x={badgeX} y={badgeY} width={88} height={16} rx={8} fill="#fbbf24" fillOpacity={0.18} stroke="#fbbf24" strokeOpacity={0.45} />
+          <text x={badgeX + 44} y={badgeY + 11} textAnchor="middle" fill="#fcd34d" fontSize={10} fontWeight={600}>
+            Intangibles
+          </text>
+        </>
+      )}
+      {showLowData && (
+        <>
+          <rect x={badgeX + (showIntangibles ? 94 : 0)} y={badgeY} width={62} height={16} rx={8} fill="#6b7280" fillOpacity={0.2} stroke="#9ca3af" strokeOpacity={0.5} />
+          <text x={badgeX + (showIntangibles ? 125 : 31)} y={badgeY + 11} textAnchor="middle" fill="#d1d5db" fontSize={10} fontWeight={600}>
+            Low data
+          </text>
+        </>
+      )}
+    </g>
+  );
 };
 
 const CustomYAxisTick = (props) => {
@@ -86,6 +107,29 @@ const CustomTooltip = ({ active, payload }) => {
   );
 };
 
+const AnimatedBar = (props) => {
+  const { x, y, width, height, fill, index, payload } = props;
+  const isPositive = (payload?.contribution || 0) >= 0;
+
+  return (
+    <rect
+      x={x}
+      y={y}
+      width={width}
+      height={height}
+      rx={4}
+      ry={4}
+      fill={fill}
+      fillOpacity={0.85}
+      className="signal-bar-stagger"
+      style={{
+        animationDelay: `${index * 80}ms`,
+        transformOrigin: `${isPositive ? 'left' : 'right'} center`,
+      }}
+    />
+  );
+};
+
 export default function SignalWaterfall({ signals, intangiblesWarning }) {
   if (!signals?.length) return null;
 
@@ -96,6 +140,7 @@ export default function SignalWaterfall({ signals, intangiblesWarning }) {
     contribution: s.contribution,
     direction: s.direction,
     description: s.description,
+    confidence: s.confidence || 'high',
   }));
 
   return (
@@ -108,7 +153,7 @@ export default function SignalWaterfall({ signals, intangiblesWarning }) {
         <BarChart
           data={data}
           layout="vertical"
-          margin={{ top: 0, right: intangiblesWarning ? 260 : 20, left: 10, bottom: 0 }}
+          margin={{ top: 0, right: 200, left: 10, bottom: 0 }}
         >
           <XAxis
             type="number"
@@ -126,7 +171,7 @@ export default function SignalWaterfall({ signals, intangiblesWarning }) {
           />
           <Tooltip content={<CustomTooltip />} cursor={false} />
           <ReferenceLine x={0} stroke="#232340" />
-          <Bar dataKey="contribution" radius={[0, 4, 4, 0]} barSize={24}>
+          <Bar dataKey="contribution" radius={[0, 4, 4, 0]} barSize={24} shape={<AnimatedBar />}>
             {data.map((d, i) => (
               <Cell
                 key={i}
@@ -137,10 +182,9 @@ export default function SignalWaterfall({ signals, intangiblesWarning }) {
                     ? '#ff4d4d'
                     : '#555'
                 }
-                fillOpacity={0.85}
               />
             ))}
-            <LabelList content={(props) => <WarningLabel {...props} data={data} intangiblesWarning={intangiblesWarning} />} />
+            <LabelList content={(props) => <BadgeLabel {...props} data={data} intangiblesWarning={intangiblesWarning} />} />
           </Bar>
         </BarChart>
       </ResponsiveContainer>

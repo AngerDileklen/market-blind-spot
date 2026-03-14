@@ -1,52 +1,32 @@
-import { useState } from 'react';
 import NarrativePanel from './NarrativePanel';
 
 export default function ComparisonPanel({ headline, blindSpotNarrative, conventionalNarrative }) {
-  const [activeTab, setActiveTab] = useState('blind-spot');
-
   if (!blindSpotNarrative && !conventionalNarrative) return null;
 
   return (
-    <div id="comparison-panel">
-      {/* Tab Switcher */}
-      <div className="flex gap-2 mb-6">
-        <button
-          id="tab-blind-spot"
-          onClick={() => setActiveTab('blind-spot')}
-          className={`comparison-tab flex-1 py-3 px-4 rounded-xl border text-sm font-medium transition-all ${
-            activeTab === 'blind-spot' ? 'active' : ''
-          }`}
-        >
-          🔍 Blind Spot Analysis
-        </button>
-        <button
-          id="tab-conventional"
-          onClick={() => setActiveTab('conventional')}
-          className={`comparison-tab flex-1 py-3 px-4 rounded-xl border text-sm font-medium transition-all ${
-            activeTab === 'conventional' ? 'active' : ''
-          }`}
-        >
-          📊 Wall Street View
-        </button>
-      </div>
-
-      {/* Active Panel */}
-      {activeTab === 'blind-spot' ? (
-        <NarrativePanel
-          headline={headline}
-          narrative={blindSpotNarrative}
-          title="Blind Spot Analysis"
-          icon="🔍"
-          accentColor="#00d4aa"
-        />
-      ) : (
+    <div id="comparison-panel" className="space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 items-stretch">
         <NarrativePanel
           narrative={conventionalNarrative}
           title="Conventional Wall Street View"
           icon="📊"
           accentColor="#ffb347"
         />
-      )}
+        <div className="flex lg:flex-col items-center justify-center gap-2 px-1">
+          <div className="h-px w-10 lg:w-px lg:h-16 bg-white/10" />
+          <span className="text-xs tracking-widest text-gray-600">VS</span>
+          <div className="h-px w-10 lg:w-px lg:h-16 bg-white/10" />
+        </div>
+        <div className="animate-fade-in" style={{ animationDelay: '1.5s' }}>
+          <NarrativePanel
+            headline={headline}
+            narrative={blindSpotNarrative}
+            title="Blind Spot Analysis"
+            icon="🔍"
+            accentColor="#00d4aa"
+          />
+        </div>
+      </div>
 
       {/* Comparison Note */}
       <div className="mt-4 p-4 rounded-xl bg-dark-700/50 border border-white/5">

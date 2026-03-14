@@ -1,16 +1,16 @@
 # Market Blind Spot — Project State
-# Last updated: [AGENT MUST UPDATE THIS TIMESTAMP AFTER EVERY CHANGE]
+# Last updated: 2026-03-14 13:32:00
 # Read this file at the start of EVERY coding session before doing anything.
 
 ---
 
 ## Current Status
 
-Overall progress: Subpart 5 UI Testing
+Overall progress: Group 1 + Group 2 improvements complete
 Last working commit: none
-Last thing completed: Frontend components
+Last thing completed: Final Gemini sanitizer flow fix validated after Group 2 completion
 Currently broken: nothing
-Next exact step: DONE!
+Next exact step: Manual browser walkthrough of all updated UX states on localhost:5173
 
 ---
 
@@ -59,6 +59,9 @@ Format:
 Example:
 [2026-03-13] [data.py] Total Debt field missing for BRK-B in yfinance
              — fallback to Long Term Debt implemented [STATUS: resolved]
+
+[2026-03-14] [frontend build] Vite warning for chunk size >500kB after minification
+             — build still passes; optimization optional [STATUS: open]
 
 ---
 
@@ -177,3 +180,13 @@ Completed: [Subparts 1 through 6: Backend fetcher, signal engine, scorer, Gemini
 Left incomplete: [None. The project is fully complete and ready for the hackathon presentation.]
 Next session must start with: [Run `npm run dev` in frontend and `python app.py` in backend to showcase the demo.]
 [6e41c6a] feat: complete market blind spot
+
+[2026-03-14 13:10:00] Session ended.
+Completed: [Group 1 improvements: intangibles badge support, Gemini headline enforcement, signal confidence metadata + low-data badges, technology-adjusted weights, peer percentile API with 3s timeout, cache-only /demo enforcement.]
+Left incomplete: [Group 2 UI improvements (placeholder text, ticker tape, historical line, staggered animation timing, VS divider right-card delay, Gemini opening sentence rule update).]
+Next session must start with: [Implement Group 2 UI improvements and run frontend build + backend compile checks again.]
+
+[2026-03-14 13:28:00] Session ended.
+Completed: [Group 2 improvements: search placeholder update, scrolling ticker tape below header, historical performance line under gauge, staggered waterfall animation at 80ms intervals, VS divider + right-card 1.5s delay, Gemini opening sentence guardrails with numeric requirement and forbidden starts.]
+Left incomplete: [Manual browser verification run for full UX pass.] 
+Next session must start with: [Launch backend and frontend, validate all Group 1/2 UX behaviors interactively, then finalize commit sequence.]

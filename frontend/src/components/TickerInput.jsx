@@ -22,7 +22,7 @@ export default function TickerInput({ onAnalyze, loading }) {
             type="text"
             value={ticker}
             onChange={(e) => setTicker(e.target.value.toUpperCase())}
-            placeholder="Enter US stock ticker (e.g. AAPL)"
+            placeholder="What is the market getting wrong about..."
             disabled={loading}
             className="w-full px-5 py-4 bg-dark-700 border border-white/10 rounded-xl
                        text-lg text-white placeholder-gray-500 font-mono

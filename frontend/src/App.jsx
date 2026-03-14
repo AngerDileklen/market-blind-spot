@@ -5,6 +5,12 @@ import SignalWaterfall from './components/SignalWaterfall';
 import ComparisonPanel from './components/ComparisonPanel';
 import { analyzeStock } from './api';
 
+const DEMO_TICKER_TAPE = [
+  { ticker: 'NFLX', score: 38.2 },
+  { ticker: 'BRK-B', score: 71.6 },
+  { ticker: 'MSFT', score: 52.4 },
+];
+
 export default function App() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -45,6 +51,16 @@ export default function App() {
           <div className="flex items-center gap-2 text-xs text-gray-600">
             <span className="px-2 py-1 rounded bg-dark-700 font-mono">Gemini 3</span>
             <span className="px-2 py-1 rounded bg-dark-700">Paris Hackathon 2026</span>
+          </div>
+        </div>
+        <div className="ticker-tape-wrap border-t border-white/5">
+          <div className="ticker-tape-track">
+            {[...DEMO_TICKER_TAPE, ...DEMO_TICKER_TAPE].map((item, idx) => (
+              <div key={`${item.ticker}-${idx}`} className="ticker-chip">
+                <span className="ticker-symbol">{item.ticker}</span>
+                <span className="ticker-score">{item.score.toFixed(1)}</span>
+              </div>
+            ))}
           </div>
         </div>
       </header>
@@ -116,6 +132,8 @@ export default function App() {
                   label={result.score_label}
                   color={result.score_color}
                   sector={result.sector}
+                  peerComparison={result.peer_comparison}
+                  sectorAdjustedWeights={result.sector_adjusted_weights}
                 />
                 <p className="text-sm text-gray-500 mt-4">
                   Dominant signal:{' '}
