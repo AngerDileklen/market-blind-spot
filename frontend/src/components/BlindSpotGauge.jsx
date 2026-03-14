@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-export default function BlindSpotGauge({ score, label, color }) {
+export default function BlindSpotGauge({ score, label, color, sector }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -77,7 +77,13 @@ export default function BlindSpotGauge({ score, label, color }) {
     ctx.font = '400 14px Inter, system-ui';
     ctx.fillText('/ 100', cx, cy + 34);
 
-  }, [score, label, color]);
+    // Peer comparison line
+    ctx.fillStyle = '#6b7280';
+    ctx.font = '400 11px Inter, system-ui';
+    const peerText = sector === 'Technology' ? 'Tech Sector Average: 42' : 'S&P 500 Average: 50';
+    ctx.fillText(peerText, cx, cy + 56);
+
+  }, [score, label, color, sector]);
 
   return (
     <div id="blind-spot-gauge" className="flex flex-col items-center">

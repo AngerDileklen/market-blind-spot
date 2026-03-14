@@ -115,6 +115,7 @@ export default function App() {
                   score={result.blind_spot_score}
                   label={result.score_label}
                   color={result.score_color}
+                  sector={result.sector}
                 />
                 <p className="text-sm text-gray-500 mt-4">
                   Dominant signal:{' '}
