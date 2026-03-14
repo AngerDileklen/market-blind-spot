@@ -7,7 +7,24 @@ import {
   ResponsiveContainer,
   Cell,
   ReferenceLine,
+  LabelList,
 } from 'recharts';
+
+const WarningLabel = (props) => {
+  const { x, y, width, index, data, intangiblesWarning } = props;
+  const d = data[index];
+  if (intangiblesWarning && d.name === 'Value') {
+    return (
+      <foreignObject x={x + width + 8} y={y - 4} width={250} height={50}>
+        <div className="flex items-start gap-1 p-1 rounded bg-amber-500/10 border border-amber-500/30 text-[10px] text-amber-400 leading-tight backdrop-blur-sm z-10 w-[240px]">
+          <span className="shrink-0 text-amber-500">⚠</span>
+          <span>Asset-light company — book value understates true assets. Accruals and gross profitability are the dominant signals.</span>
+        </div>
+      </foreignObject>
+    );
+  }
+  return null;
+};
 
 const CustomTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null;
@@ -33,7 +50,7 @@ const CustomTooltip = ({ active, payload }) => {
   );
 };
 
-export default function SignalWaterfall({ signals }) {
+export default function SignalWaterfall({ signals, intangiblesWarning }) {
   if (!signals?.length) return null;
 
   const data = signals.map((s) => ({
@@ -55,7 +72,7 @@ export default function SignalWaterfall({ signals }) {
         <BarChart
           data={data}
           layout="vertical"
-          margin={{ top: 0, right: 20, left: 10, bottom: 0 }}
+          margin={{ top: 0, right: intangiblesWarning ? 260 : 20, left: 10, bottom: 0 }}
         >
           <XAxis
             type="number"
@@ -87,6 +104,7 @@ export default function SignalWaterfall({ signals }) {
                 fillOpacity={0.85}
               />
             ))}
+            <LabelList data={data} intangiblesWarning={intangiblesWarning} content={<WarningLabel />} />
           </Bar>
         </BarChart>
       </ResponsiveContainer>

@@ -123,7 +123,7 @@ export default function App() {
               </div>
 
               {/* Right: Waterfall */}
-              <SignalWaterfall signals={result.signals} />
+              <SignalWaterfall signals={result.signals} intangiblesWarning={result.intangibles_warning} />
             </div>
 
             {/* Conventional Metrics */}
