@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Global Styles ===== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #0a0a0f;
+  color: #e5e7eb;
+  min-height: 100vh;
+}
+
+/* ===== Glassmorphism Card ===== */
+.glass-card {
+  background: rgba(26, 26, 46, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+}
+
+.glass-card-hover:hover {
+  border-color: rgba(0, 212, 170, 0.2);
+  box-shadow: 0 0 30px rgba(0, 212, 170, 0.05);
+}
+
+/* ===== Score Gauge Glow ===== */
+.gauge-glow {
+  filter: drop-shadow(0 0 20px var(--glow-color, rgba(0, 212, 170, 0.4)));
+}
+
+/* ===== Narrative Panel ===== */
+.narrative-text p {
+  margin-bottom: 1rem;
+  line-height: 1.8;
+}
+
+.narrative-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== Signal Bar Animation ===== */
+@keyframes barGrow {
+  from { width: 0; }
+  to { width: var(--bar-width); }
+}
+
+.signal-bar-animated {
+  animation: barGrow 0.8s ease-out forwards;
+  animation-delay: var(--bar-delay, 0s);
+}
+
+/* ===== Loading Spinner ===== */
+@keyframes spin-gradient {
+  to { transform: rotate(360deg); }
+}
+
+.loader-ring {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #00d4aa;
+  animation: spin-gradient 0.8s linear infinite;
+}
+
+/* ===== Ticker Input Glow ===== */
+.input-glow:focus-within {
+  box-shadow: 0 0 0 2px rgba(0, 212, 170, 0.3), 0 0 20px rgba(0, 212, 170, 0.1);
+}
+
+/* ===== Custom Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #232340;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2d2d50;
+}
+
+/* ===== Comparison Panel Toggle ===== */
+.comparison-tab {
+  transition: all 0.3s ease;
+}
+
+.comparison-tab.active {
+  background: rgba(0, 212, 170, 0.15);
+  color: #00d4aa;
+  border-color: #00d4aa;
+}
+
+.comparison-tab:not(.active) {
+  background: rgba(255, 255, 255, 0.03);
+  color: #6b7280;
+  border-color: transparent;
+}
+
+.comparison-tab:not(.active):hover {
+  color: #9ca3af;
+  background: rgba(255, 255, 255, 0.06);
+}

@@ -6,20 +6,20 @@
 
 ## Current Status
 
-Overall progress: NOT STARTED
+Overall progress: Subpart 5 UI Testing
 Last working commit: none
-Last thing completed: nothing yet
+Last thing completed: Frontend components
 Currently broken: nothing
-Next exact step: Subpart 1 — Project scaffold and data pipeline
+Next exact step: Verify the UI renders correctly
 
 ---
 
 ## Completed Steps
 
-[ ] Subpart 1: Project scaffold and data pipeline
-[ ] Subpart 2: Signal computation engine
-[ ] Subpart 3: Blind Spot Scorer and Gemini narration
-[ ] Subpart 4: Flask API
+[x] Subpart 1: Project scaffold and data pipeline
+[x] Subpart 2: Signal computation engine
+[x] Subpart 3: Blind Spot Scorer and Gemini narration
+[x] Subpart 4: Flask API
 [ ] Subpart 5: React frontend
 [ ] Subpart 6: Polish, caching, and demo prep
 
@@ -28,24 +28,24 @@ Next exact step: Subpart 1 — Project scaffold and data pipeline
 ## File Completion Status
 
 ### Backend
-[ ] backend/requirements.txt — created and tested
-[ ] backend/.env — created with placeholder key
-[ ] backend/data.py — yfinance fetcher + cache + preload_demo_tickers()
-[ ] backend/signals.py — all 6 signals computing correctly
-[ ] backend/scorer.py — Blind Spot Score + contributions + label
-[ ] backend/gemini.py — both narratives generating from Gemini
-[ ] backend/app.py — all 3 routes working (/analyze, /demo, /health)
+[x] backend/requirements.txt — created and tested
+[x] backend/.env — created with placeholder key
+[x] backend/data.py — yfinance fetcher + cache + preload_demo_tickers()
+[x] backend/signals.py — all 6 signals computing correctly
+[x] backend/scorer.py — Blind Spot Score + contributions + label
+[x] backend/gemini.py — both narratives generating from Gemini
+[x] backend/app.py — all 3 routes working (/analyze, /demo, /health)
 [ ] backend/demo_cache/ — all 6 JSON files saved and loading correctly
 
 ### Frontend
-[ ] frontend scaffold — Vite + React + Tailwind installed
-[ ] frontend/src/api.js — fetch wrapper for /analyze and /demo
-[ ] frontend/src/App.jsx — full layout rendering
-[ ] frontend/src/components/TickerInput.jsx — search + demo buttons
-[ ] frontend/src/components/BlindSpotGauge.jsx — animated SVG gauge
-[ ] frontend/src/components/SignalWaterfall.jsx — Recharts waterfall
-[ ] frontend/src/components/NarrativePanel.jsx — narrative text display
-[ ] frontend/src/components/ComparisonPanel.jsx — two-column comparison
+[x] frontend scaffold — Vite + React + Tailwind installed
+[x] frontend/src/api.js — fetch wrapper for /analyze and /demo
+[x] frontend/src/App.jsx — full layout rendering
+[x] frontend/src/components/TickerInput.jsx — search + demo buttons
+[x] frontend/src/components/BlindSpotGauge.jsx — animated SVG gauge
+[x] frontend/src/components/SignalWaterfall.jsx — Recharts waterfall
+[x] frontend/src/components/NarrativePanel.jsx — narrative text display
+[x] frontend/src/components/ComparisonPanel.jsx — two-column comparison
 
 ---
 
