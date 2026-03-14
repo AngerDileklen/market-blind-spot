@@ -15,6 +15,7 @@ from concurrent.futures import ThreadPoolExecutor, TimeoutError, as_completed
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from google import genai
 
 from data import fetch_stock_data, load_demo_cache
 from signals import compute_all_signals
@@ -29,6 +30,15 @@ CORS(app)
 
 DEMO_TICKERS = ["NFLX", "BRK-B", "MSFT", "TSLA"]
 DEMO_CACHE_DIR = os.path.join(os.path.dirname(__file__), "demo_cache")
+GAME_CARDS_DIR = os.path.join(os.path.dirname(__file__), "cards")
+
+GAME_FILE_MAP = {
+    1: "world1_comps.json",
+    2: "world2_deals.json",
+    3: "world3_dcf.json",
+    4: "world4_lbo.json",
+    5: "world5_merger.json",
+}
 
 SECTOR_PEERS = {
     "technology": ["MSFT", "AAPL", "NVDA", "GOOGL", "META", "ORCL", "ADBE", "CRM", "AMD", "INTC", "NOW", "PLTR"],
@@ -38,6 +48,64 @@ SECTOR_PEERS = {
     "consumer": ["AMZN", "WMT", "COST", "HD", "MCD", "NKE", "SBUX", "TGT", "LOW", "BKNG", "TJX", "CMG"],
     "default": ["MSFT", "AAPL", "GOOGL", "AMZN", "META", "NVDA", "JPM", "JNJ", "WMT", "PG", "XOM", "UNH"],
 }
+
+
+def _load_game_cards(world_num: int) -> list:
+    file_name = GAME_FILE_MAP.get(int(world_num))
+    if not file_name:
+        return []
+
+    file_path = os.path.join(GAME_CARDS_DIR, file_name)
+    if not os.path.exists(file_path):
+        return []
+
+    try:
+        with open(file_path, "r") as f:
+            return json.load(f)
+    except Exception as e:
+        logger.error(f"Error loading game cards {file_name}: {e}")
+        return []
+
+
+def _game_hint(question: str, context: str) -> str:
+    key = os.getenv("GEMINI_API_KEY", "")
+    if not key or key == "your-key-here":
+        return "Think carefully about the key metric used for this specific sector."
+
+    prompt = f"""
+You are an expert investment banking Managing Director. A student is trying to answer the following valuation question:
+Company Context: {context}
+Question: {question}
+
+Provide ONE short sentence (max 20 words) as a hint.
+You MUST NOT give the answer directly.
+Just a conceptual nudge in the right direction.
+"""
+
+    try:
+        client = genai.Client(api_key=key)
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt,
+        )
+        return (response.text or "").strip() or "Consider the relationship between risk and return here."
+    except Exception as e:
+        logger.error(f"Game hint generation failed: {e}")
+        return "Consider the relationship between risk and return here."
+
+
+def _check_boss_answer(student_answer: float, reference: float, tolerance: float = 0.15) -> dict:
+    if reference == 0:
+        if student_answer == 0:
+            return {"correct": True, "gap_pct": 0.0}
+        return {"correct": False, "gap_pct": 100.0}
+
+    gap = abs(student_answer - reference)
+    gap_pct = (gap / abs(reference)) * 100.0
+    return {
+        "correct": gap_pct <= (tolerance * 100),
+        "gap_pct": round(gap_pct, 1),
+    }
 
 
 def _select_peer_list(sector: str) -> tuple[list[str], str]:
@@ -105,6 +173,11 @@ def run_full_analysis(ticker: str) -> dict:
 
     # Step 1: Fetch financial data
     data = fetch_stock_data(ticker)
+    if data is None:
+        return {
+            "error": f"Ticker '{ticker.upper()}' not found or no financial data available",
+            "ticker": ticker.upper(),
+        }
     if "error" in data:
         return {"error": data["error"], "ticker": ticker.upper()}
 
@@ -228,6 +301,44 @@ def demo():
         return jsonify({"error": f"Demo ticker {requested} not found"}), 404
 
     return jsonify(results)
+
+
+@app.route("/game/cards/<int:world>", methods=["GET"])
+def game_cards(world: int):
+    cards = _load_game_cards(world)
+    if not cards:
+        return jsonify({"error": "Cards not found"}), 404
+    return jsonify(cards)
+
+
+@app.route("/game/hint", methods=["POST"])
+def game_hint():
+    body = request.get_json(silent=True)
+    if not body or "question" not in body or "company_context" not in body:
+        return jsonify({"error": "Missing question or company_context"}), 400
+
+    hint_text = _game_hint(
+        question=str(body.get("question", "")),
+        context=str(body.get("company_context", "")),
+    )
+    return jsonify({"hint": hint_text})
+
+
+@app.route("/game/check-boss", methods=["POST"])
+def game_check_boss():
+    body = request.get_json(silent=True)
+    if not body or "answer" not in body or "reference" not in body:
+        return jsonify({"error": "Missing answer or reference"}), 400
+
+    try:
+        student_ans = float(body.get("answer"))
+        ref_ans = float(body.get("reference"))
+    except (TypeError, ValueError):
+        return jsonify({"error": "Invalid numerical values"}), 400
+
+    result = _check_boss_answer(student_ans, ref_ans)
+    result["xp_earned"] = 300 if result["correct"] else 0
+    return jsonify(result)
 
 
 if __name__ == "__main__":

@@ -1,23 +1,57 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import TickerInput from './components/TickerInput';
 import BlindSpotGauge from './components/BlindSpotGauge';
 import SignalWaterfall from './components/SignalWaterfall';
 import ComparisonPanel from './components/ComparisonPanel';
+import AnalysisProgress from './components/AnalysisProgress';
+import GameApp from './components/game/GameApp';
 import { analyzeStock } from './api';
 
 export default function App() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [mode, setMode] = useState('analyze');
+  const [analysisStep, setAnalysisStep] = useState(-1);
+  const stepTimers = useRef([]);
+
+  // Each delay is when that step becomes active (ms from start)
+  // Paced so users can read each hint before the next step fires
+  const STEP_DELAYS = [0, 1800, 3500, 5600, 7800, 10800, 12800];
+
+  const clearStepTimers = () => {
+    stepTimers.current.forEach(clearTimeout);
+    stepTimers.current = [];
+  };
+
+  if (mode === 'game') {
+    return <GameApp onExit={() => setMode('analyze')} />;
+  }
 
   const handleAnalyze = async (ticker) => {
     setLoading(true);
     setError(null);
     setResult(null);
+    clearStepTimers();
+    setAnalysisStep(0);
+
+    // Advance through steps on a realistic schedule
+    STEP_DELAYS.slice(1).forEach((delay, i) => {
+      const id = setTimeout(() => setAnalysisStep(i + 1), delay);
+      stepTimers.current.push(id);
+    });
+
     try {
       const data = await analyzeStock(ticker);
+      // Snap all steps to done before showing result
+      clearStepTimers();
+      setAnalysisStep(7);
+      // Pause so users see all steps resolved before result appears
+      await new Promise((r) => setTimeout(r, 800));
       setResult(data);
     } catch (err) {
+      clearStepTimers();
+      setAnalysisStep(-1);
       setError(err.message || 'Analysis failed');
     } finally {
       setLoading(false);
@@ -43,6 +77,13 @@ export default function App() {
             </div>
           </div>
           <div className="flex items-center gap-2 text-xs text-gray-500">
+            <button
+              type="button"
+              className="px-4 py-2 text-sm font-semibold rounded-full bg-gradient-to-r from-emerald-400 to-accent-green text-dark-900 border border-emerald-200/40 shadow-lg shadow-accent-green/25 hover:shadow-accent-green/40 hover:scale-[1.03] cta-pulse transition-all duration-300"
+              onClick={() => setMode('game')}
+            >
+              🎮 Play ValuationQuest
+            </button>
             <span className="px-2.5 py-1 rounded-full bg-dark-700 border border-white/10 font-mono">Gemini 3</span>
             <span className="px-2.5 py-1 rounded-full bg-dark-700 border border-white/10">Paris Hackathon 2026</span>
           </div>
@@ -64,18 +105,8 @@ export default function App() {
           <TickerInput onAnalyze={handleAnalyze} loading={loading} />
         </section>
 
-        {/* Loading State */}
-        {loading && (
-          <div className="flex flex-col items-center gap-4 py-16 animate-fade-in" aria-live="polite">
-            <div className="loader-ring"></div>
-            <p className="text-gray-300 loading-dots">
-              Running signal analysis
-            </p>
-            <p className="text-xs text-gray-600">
-              Fetching financials → Computing signals → Generating narrative
-            </p>
-          </div>
-        )}
+        {/* Analysis Progress Steps */}
+        {loading && <AnalysisProgress currentStep={analysisStep} />}
 
         {/* Error State */}
         {error && !loading && (

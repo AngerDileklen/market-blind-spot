@@ -1,0 +1,37 @@
+[
+  {
+    "id": "w2_c1",
+    "world": 2,
+    "type": "multiple_choice",
+    "company_context": "TargetCo — Software firm trading at $50/share.\nAcquirer offers $65/share.",
+    "question": "Why would an acquirer pay a $15 premium over the current public market price?",
+    "options": [
+      { "id": "A", "text": "To gain absolute control and realize synergies." },
+      { "id": "B", "text": "Because target management always demands a 30% bonus." },
+      { "id": "C", "text": "To increase their own P/E ratio." }
+    ],
+    "correct": "A",
+    "feedback_correct": "Exactly. You pay a control premium because taking over the company allows you to fire redundant staff, combine sales forces (synergies), and direct strategy.",
+    "feedback_wrong_B": "Management compensation is a fraction of the deal size. Premiums are paid to convince regular shareholders to sell, not just management.",
+    "feedback_wrong_C": "Paying a high premium usually lowers the acquirer's EPS in the short term, not the other way around.",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "Control Premium",
+    "difficulty": 1
+  },
+  {
+    "id": "w2_boss",
+    "world": 2,
+    "type": "boss",
+    "company_context": "Acquisition Boss Challenge\nTarget EBITDA: $100M\nPeer Multiple: 8x\nSynergies: $50M (valued at same multiple)",
+    "question": "If the acquirer captures all synergy value, what is the maximum Enterprise Value they could pay to break even? (Enter full number)",
+    "reference": 1200000000,
+    "correct": "1200000000",
+    "feedback_correct": "Correct! Standalone value ($100M * 8 = $800M) + Synergy value ($50M * 8 = $400M) = $1.2B maximum justifiable price.",
+    "feedback_wrong": "Calculate the standalone value (100 * 8) and add the capitalized value of synergies (50 * 8).",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "Synergy Valuation",
+    "difficulty": 3
+  }
+]

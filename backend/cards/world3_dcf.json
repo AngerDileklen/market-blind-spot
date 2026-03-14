@@ -1,0 +1,37 @@
+[
+  {
+    "id": "w3_c1",
+    "world": 3,
+    "type": "multiple_choice",
+    "company_context": "TechStartup — Early stage, high risk.\nBeta: 1.8, Risk-free rate: 4%, Equity Risk Premium: 6%.",
+    "question": "Which component of the WACC formula drives the discount rate highest for this startup?",
+    "options": [
+      { "id": "A", "text": "The high Beta (1.8)" },
+      { "id": "B", "text": "The Risk-free rate (4%)" },
+      { "id": "C", "text": "The corporate tax rate" }
+    ],
+    "correct": "A",
+    "feedback_correct": "Correct. A Beta of 1.8 implies 80% more volatility than the market, massively driving up the Cost of Equity via CAPM.",
+    "feedback_wrong_B": "The risk-free rate is a baseline and applies to all companies. It doesn't disproportionately affect this startup.",
+    "feedback_wrong_C": "Tax rate lowers the cost of debt, which actually reduces WACC. It does not drive it higher.",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "WACC/CAPM",
+    "difficulty": 2
+  },
+  {
+    "id": "w3_boss",
+    "world": 3,
+    "type": "boss",
+    "company_context": "DCF Boss Challenge\nYear 5 FCF: $100M\nPerpetuity Growth Rate: 2%\nWACC: 10%",
+    "question": "What is the Terminal Value at the end of Year 5 using the Gordon Growth Model? (Enter full number)",
+    "reference": 1275000000,
+    "correct": "1275000000",
+    "feedback_correct": "Nailed it. Terminal Value = FCF_5 * (1 + g) / (WACC - g) = 100 * 1.02 / (0.10 - 0.02) = 102 / 0.08 = 1,275,000,000.",
+    "feedback_wrong": "Use the formula: TV = FCF_5 * (1 + g) / (WACC - g). Don't forget to project Year 5 FCF forward one year.",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "Terminal Value",
+    "difficulty": 3
+  }
+]

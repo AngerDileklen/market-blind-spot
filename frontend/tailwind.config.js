@@ -4,6 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
+        background: '#0f0f0f',
+        textPrimary: '#ffffff',
+        textSecondary: '#9ca3af',
+        card: '#171717',
+        border: '#2a2a2a',
+        gold: '#ffd700',
+        correct: '#00d4aa',
+        wrong: '#ff4d4d',
+        warning: '#ffb347',
         dark: {
           900: '#0a0a0f',
           800: '#11111b',

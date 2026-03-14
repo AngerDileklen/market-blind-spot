@@ -1,0 +1,37 @@
+[
+  {
+    "id": "w5_c1",
+    "world": 5,
+    "type": "multiple_choice",
+    "company_context": "Acquirer P/E: 20x. Target P/E: 10x.\n100% stock deal.",
+    "question": "Is this deal mathematically accretive or dilutive to the Acquirer's EPS?",
+    "options": [
+      { "id": "A", "text": "Accretive" },
+      { "id": "B", "text": "Dilutive" },
+      { "id": "C", "text": "Neutral" }
+    ],
+    "correct": "A",
+    "feedback_correct": "Correct. The Acquirer is using highly valued stock (20x) to buy cheaper earnings (10x). This mathematically increases EPS, making it accretive.",
+    "feedback_wrong_B": "It would only be dilutive if the Acquirer's P/E was lower than the Target's P/E in an all-stock deal.",
+    "feedback_wrong_C": "Neutral only happens if the P/E ratios are identical.",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "Accretion/Dilution",
+    "difficulty": 2
+  },
+  {
+    "id": "w5_boss",
+    "world": 5,
+    "type": "boss",
+    "company_context": "Merger Boss Challenge\nAcquirer Net Income: $100M, Shares: 50M\nTarget Net Income: $50M\nNew shares issued for deal: 10M",
+    "question": "What is the Pro Forma EPS after the merger? (Enter number, e.g., 2.50)",
+    "reference": 2.50,
+    "correct": "2.5",
+    "feedback_correct": "Correct. Pro Forma Net Income ($150M) / Pro Forma Shares (60M) = $2.50 EPS. The standalone EPS was $2.00, so this deal is $0.50 accretive.",
+    "feedback_wrong": "Sum the net incomes (100 + 50) and divide by the sum of total shares outstanding (50 + 10).",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "Pro Forma EPS",
+    "difficulty": 3
+  }
+]

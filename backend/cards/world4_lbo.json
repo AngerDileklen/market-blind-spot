@@ -1,0 +1,37 @@
+[
+  {
+    "id": "w4_c1",
+    "world": 4,
+    "type": "multiple_choice",
+    "company_context": "StableCo — Boring cash cow.\nPE firm buys it with 70% debt, 30% equity.",
+    "question": "What is the primary driver of high equity returns (IRR) in this LBO?",
+    "options": [
+      { "id": "A", "text": "Massive revenue growth." },
+      { "id": "B", "text": "Using operating cash flows to pay down debt." },
+      { "id": "C", "text": "Issuing more shares to the public." }
+    ],
+    "correct": "B",
+    "feedback_correct": "Correct. The magic of an LBO is debt paydown. As debt decreases over 5 years, equity value increases dollar-for-dollar even if the enterprise value never changes.",
+    "feedback_wrong_A": "StableCo is a 'boring cash cow'. LBOs rely on debt paydown and multiple expansion more often than heroic growth assumptions.",
+    "feedback_wrong_C": "PE firms take companies private; they don't issue shares to the public during the hold period.",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "LBO Drivers",
+    "difficulty": 2
+  },
+  {
+    "id": "w4_boss",
+    "world": 4,
+    "type": "boss",
+    "company_context": "LBO Boss Challenge\nEquity invested at Year 0: $200M\nEquity returned at Year 5: $600M",
+    "question": "What is the Multiple on Invested Capital (MOIC)? (Enter as a simple number, e.g., 2, 3, 4)",
+    "reference": 3,
+    "correct": "3",
+    "feedback_correct": "Easy money. $600M / $200M = 3.0x MOIC. A 3x return over 5 years equates to roughly a 25% IRR, which is a home run for PE.",
+    "feedback_wrong": "MOIC is simply Return / Invested Capital (600 / 200).",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "MOIC Calculation",
+    "difficulty": 1
+  }
+]

@@ -1,0 +1,197 @@
+[
+  {
+    "id": "w1_c1",
+    "world": 1,
+    "type": "multiple_choice",
+    "company_context": "RetailCo — Fashion apparel, $850M revenue.\nGrowing 4% annually for 3 years.",
+    "question": "What EV/EBITDA multiple is most appropriate for a mature, stable consumer retailer?",
+    "options": [
+      { "id": "A", "text": "4x — conservative value approach" },
+      { "id": "B", "text": "9x — in line with sector median" },
+      { "id": "C", "text": "22x — premium for growth potential" }
+    ],
+    "correct": "B",
+    "feedback_correct": "Exactly right. Consumer retail comps historically trade between 6x and 11x EBITDA. 9x as a sector median is where Goldman and JPM would anchor.",
+    "feedback_wrong_A": "4x implies RetailCo is deeply distressed. At that multiple the market is pricing in serious operational problems that the data does not support.",
+    "feedback_wrong_C": "22x is a SaaS multiple, not retail. Applying a high-growth tech multiple to a mature apparel company would be challenged immediately in any pitch.",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "EV/EBITDA",
+    "difficulty": 1
+  },
+  {
+    "id": "w1_c2",
+    "world": 1,
+    "type": "multiple_choice",
+    "company_context": "CloudNet — SaaS enterprise software, $120M ARR.\nGrowing 45% YoY with 85% gross margins.",
+    "question": "Which valuation metric is the market most likely using to price CloudNet today?",
+    "options": [
+      { "id": "A", "text": "EV / EBITDA" },
+      { "id": "B", "text": "Price to Earnings (P/E)" },
+      { "id": "C", "text": "EV / Revenue" }
+    ],
+    "correct": "C",
+    "feedback_correct": "Spot on. High-growth, early-stage SaaS companies often have negative EBITDA and earnings. Revenue (ARR) multiples are the standard approach.",
+    "feedback_wrong_A": "CloudNet likely has negative EBITDA due to heavy S&M investment. EV/EBITDA multiples are meaningless when EBITDA is negative.",
+    "feedback_wrong_B": "P/E is a mature company metric. High-growth tech companies reinvest all profits, making earnings near zero or negative.",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "Valuation Metrics",
+    "difficulty": 1
+  },
+  {
+    "id": "w1_c3",
+    "world": 1,
+    "type": "multiple_choice",
+    "company_context": "BankCorp — Regional bank, $50B in assets.\nStable net interest margin, 12% ROE.",
+    "question": "You are building a comps set for BankCorp. Which multiple is the gold standard for financial institutions?",
+    "options": [
+      { "id": "A", "text": "Price to Tangible Book Value (P/TBV)" },
+      { "id": "B", "text": "EV / EBITDA" },
+      { "id": "C", "text": "EV / Revenue" }
+    ],
+    "correct": "A",
+    "feedback_correct": "Correct. Banks are valued on their equity (book value), adjusted for intangibles. P/TBV directly reflects the return on that equity (ROE).",
+    "feedback_wrong_B": "Banks do not have traditional 'EBITDA' because interest is their core revenue, not an expense. EV is irrelevant for financials.",
+    "feedback_wrong_C": "A bank's 'revenue' is net interest income, but value is driven by the balance sheet. EV/Revenue is never used for banks.",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "FIG Valuation",
+    "difficulty": 2
+  },
+  {
+    "id": "w1_c4",
+    "world": 1,
+    "type": "multiple_choice",
+    "company_context": "AeroParts — Aerospace manufacturer.\nCompetitor A trades at 10x EBITDA. Competitor B trades at 12x.",
+    "question": "AeroParts has significantly higher operating margins than both competitors. How should you position its multiple?",
+    "options": [
+      { "id": "A", "text": "Discount it to 8x to be conservative." },
+      { "id": "B", "text": "Use the exact average of 11x." },
+      { "id": "C", "text": "Apply a premium (e.g., 13x or 14x)." }
+    ],
+    "correct": "C",
+    "feedback_correct": "Good intuition. Higher margins mean better profitability profile. The market will reward this with a premium multiple relative to peers.",
+    "feedback_wrong_A": "Being 'conservative' by ignoring superior fundamentals is just bad analysis. You are undervaluing a high-quality asset.",
+    "feedback_wrong_B": "Averages are a starting point, not the answer. Superior operating margins justify trading above the peer average.",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "Multiple Premium",
+    "difficulty": 2
+  },
+  {
+    "id": "w1_c5",
+    "world": 1,
+    "type": "multiple_choice",
+    "company_context": "GoldMine Inc — Mining operator.\nRevenue is tied directly to global spot gold prices.",
+    "question": "When selecting comparable companies for GoldMine, what is the most critical screening criteria?",
+    "options": [
+      { "id": "A", "text": "Total employee count" },
+      { "id": "B", "text": "Commodity exposure and mine location" },
+      { "id": "C", "text": "Dividend yield" }
+    ],
+    "correct": "B",
+    "feedback_correct": "Yes. A gold miner in Canada faces entirely different risks and unit economics than a copper miner in Chile. Commodity match is paramount.",
+    "feedback_wrong_A": "Employee count is a weak proxy for scale and irrelevant to commodity price risk.",
+    "feedback_wrong_C": "While dividends matter to some investors, the underlying asset (the metal) and jurisdiction drive the valuation multiple.",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "Peer Selection",
+    "difficulty": 1
+  },
+  {
+    "id": "w1_c6",
+    "world": 1,
+    "type": "multiple_choice",
+    "company_context": "TechHardware — Server component maker.\nEarnings are highly cyclical. We are currently at a cycle peak.",
+    "question": "TechHardware's current P/E is very low (6x). Why might this be a value trap?",
+    "options": [
+      { "id": "A", "text": "Because tech companies should always trade above 20x." },
+      { "id": "B", "text": "Because earnings are at a peak, so the 'E' in P/E is artificially high." },
+      { "id": "C", "text": "Because the market expects an immediate bankruptcy." }
+    ],
+    "correct": "B",
+    "feedback_correct": "Exactly. At cycle peaks, earnings are maxed out, making the P/E look cheap. When earnings inevitably crash, the multiple expands rapidly.",
+    "feedback_wrong_A": "Hardware is cyclical and capital intensive, unlike SaaS. It rarely commands 20x multiples even in good times.",
+    "feedback_wrong_C": "A 6x P/E implies cycle peak or low growth, not bankruptcy. Distressed companies often trade at zero or undefined P/Es as earnings turn negative.",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "Cyclical Valuation",
+    "difficulty": 3
+  },
+  {
+    "id": "w1_c7",
+    "world": 1,
+    "type": "multiple_choice",
+    "company_context": "PharmaBio — Biotech with one drug in Phase III trials.\nZero revenue, burning $50M/year.",
+    "question": "How do investment bankers typically value clinical-stage biotech companies?",
+    "options": [
+      { "id": "A", "text": "EV / Revenue using a 50x multiple" },
+      { "id": "B", "text": "Risk-adjusted NPV of the drug pipeline" },
+      { "id": "C", "text": "Book value of laboratory equipment" }
+    ],
+    "correct": "B",
+    "feedback_correct": "Correct. Standard comps fail here. You build a DCF of the drug's potential cash flows and risk-adjust (discount) based on the probability of FDA approval.",
+    "feedback_wrong_A": "50x zero is still zero. You cannot use revenue multiples on pre-revenue companies.",
+    "feedback_wrong_C": "Lab equipment is worth pennies on the dollar. The value is entirely in the IP and clinical data.",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "Biotech Valuation",
+    "difficulty": 3
+  },
+  {
+    "id": "w1_c8",
+    "world": 1,
+    "type": "multiple_choice",
+    "company_context": "AutoMaker — Legacy car manufacturer.\nHas $10B in underfunded pension liabilities.",
+    "question": "When calculating Enterprise Value (EV) for AutoMaker, how should you treat the unfunded pension liability?",
+    "options": [
+      { "id": "A", "text": "Ignore it, it's an accounting issue." },
+      { "id": "B", "text": "Subtract it from EV as a cash equivalent." },
+      { "id": "C", "text": "Add it to EV as a debt equivalent." }
+    ],
+    "correct": "C",
+    "feedback_correct": "Nailed it. An unfunded pension is a future cash obligation to employees, functioning exactly like debt. It must be added to EV.",
+    "feedback_wrong_A": "It represents a real cash drain in the future. Ignoring a $10B liability will get you fired.",
+    "feedback_wrong_B": "It is an obligation you owe, not an asset you own. You add it to EV, you don't subtract it.",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "Enterprise Value",
+    "difficulty": 2
+  },
+  {
+    "id": "w1_c9",
+    "world": 1,
+    "type": "multiple_choice",
+    "company_context": "StreamingCo — Media platform.\nEvaluating EV/EBITDA vs EV/EBIT multiples.",
+    "question": "StreamingCo has massive capital expenditures (CapEx) for servers. Which multiple better captures this cash drain?",
+    "options": [
+      { "id": "A", "text": "EV / EBITDA" },
+      { "id": "B", "text": "EV / EBIT" },
+      { "id": "C", "text": "Price to Sales" }
+    ],
+    "correct": "B",
+    "feedback_correct": "Correct. EBIT includes Depreciation, which is a proxy for CapEx. For capital-intensive businesses, EBIT is often a more truthful metric than EBITDA.",
+    "feedback_wrong_A": "EBITDA ignores CapEx (D&A). For a company spending billions on servers, EBITDA dramatically overstates their true cash-generating ability.",
+    "feedback_wrong_C": "Price to Sales ignores costs entirely, making it useless for evaluating capital intensity.",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "EBIT vs EBITDA",
+    "difficulty": 2
+  },
+  {
+    "id": "w1_boss",
+    "world": 1,
+    "type": "boss",
+    "company_context": "RetailCo Boss Challenge\nPeers trade at 8x EV/EBITDA.\nRetailCo EBITDA: $119M.\nCash: $20M.\nDebt: $50M.",
+    "question": "What is the implied Enterprise Value for RetailCo? (Enter full number)",
+    "reference": 952000000,
+    "correct": "952000000",
+    "feedback_correct": "Excellent. 8 * $119M = $952M Enterprise Value. Note that cash and debt are irrelevant when calculating EV directly from an EBITDA multiple.",
+    "feedback_wrong": "To find implied EV, multiply the EBITDA by the multiple (119M * 8). Do not adjust for cash and debt unless asked for Equity Value.",
+    "character_correct": "alex",
+    "character_wrong": "morgan",
+    "concept_tag": "Boss Challenge",
+    "difficulty": 3
+  }
+]

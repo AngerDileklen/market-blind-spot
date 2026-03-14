@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-const DEMO_TICKERS = ['NFLX', 'BRK-B', 'MSFT', 'TSLA'];
+const DEMO_TICKERS = ['AAPL', 'NVDA', 'MSFT', 'AMZN'];
 const TICKER_SUGGESTIONS = [
   { ticker: 'AAPL', company: 'Apple Inc.' },
   { ticker: 'MSFT', company: 'Microsoft Corporation' },
@@ -202,7 +202,7 @@ export default function TickerInput({ onAnalyze, loading }) {
 
       {/* Demo ticker buttons */}
       <div className="flex items-center gap-3 mt-4 justify-center">
-        <span className="text-sm text-gray-500">Try demo:</span>
+        <span className="text-sm text-gray-500">Try popular:</span>
         {DEMO_TICKERS.map((t) => (
           <button
             key={t}
