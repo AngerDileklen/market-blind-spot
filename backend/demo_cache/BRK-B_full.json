@@ -55,7 +55,9 @@
     "revenue_growth": -0.007
   },
   "financial_sector_warning": true,
+  "intangibles_warning": false,
+  "headline": "Analysis complete \u2014 reviewing key signal drivers against consensus.",
   "blind_spot_narrative": "Market Blind Spot analysis detected notable signal divergences for this company. The Blind Spot Score suggests the market may be mispricing key fundamentals that academic research has shown to predict future returns. Further analysis is recommended to understand the specific drivers.",
   "conventional_narrative": "Based on standard valuation metrics, this company presents a mixed picture. Revenue growth and P/E ratios suggest the market has priced in near-term expectations, though investors should monitor upcoming earnings for confirmation of current trends.",
-  "analysis_time_seconds": 0.13
+  "analysis_time_seconds": 0.33
 }

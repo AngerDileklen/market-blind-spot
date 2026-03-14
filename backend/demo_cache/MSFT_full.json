@@ -2,31 +2,24 @@
   "ticker": "MSFT",
   "company_name": "Microsoft Corporation",
   "sector": "Technology",
-  "blind_spot_score": 64.0,
+  "blind_spot_score": 68.8,
   "score_label": "Moderate Underpriced Signal",
   "score_color": "#66e0c8",
-  "dominant_signal": "Gross Profitability",
+  "dominant_signal": "Price Momentum",
   "signals": [
+    {
+      "name": "Price Momentum",
+      "value": 0.272142,
+      "contribution": 9.5,
+      "direction": "bullish",
+      "description": "12-month winners continue to outperform. Skip-month rule applied. Jegadeesh & Titman (1993)."
+    },
     {
       "name": "Gross Profitability",
       "value": 0.313234,
       "contribution": 7.8,
       "direction": "bullish",
       "description": "Gross profit per asset dollar signals durable competitive advantage. Novy-Marx (2013)."
-    },
-    {
-      "name": "Value Signal",
-      "value": 0.133017,
-      "contribution": 2.7,
-      "direction": "bullish",
-      "description": "Cheap assets relative to market price predict positive returns. Fama & French (1992) \u2014 using 1/P-to-B as practical proxy."
-    },
-    {
-      "name": "Price Momentum",
-      "value": 0.272142,
-      "contribution": 2.7,
-      "direction": "bullish",
-      "description": "12-month winners continue to outperform. Skip-month rule applied. Jegadeesh & Titman (1993)."
     },
     {
       "name": "Accruals Anomaly",
@@ -43,6 +36,13 @@
       "description": "Aggressive asset expansion predicts underperformance. Cooper, Gulen & Schill (2008)."
     },
     {
+      "name": "Value Signal",
+      "value": 0.133017,
+      "contribution": 0.7,
+      "direction": "bullish",
+      "description": "Cheap assets relative to market price predict positive returns. Fama & French (1992) \u2014 using 1/P-to-B as practical proxy."
+    },
+    {
       "name": "Leverage Risk",
       "value": 0.09788,
       "contribution": -0.3,
@@ -55,7 +55,9 @@
     "revenue_growth": 0.167
   },
   "financial_sector_warning": false,
+  "intangibles_warning": false,
+  "headline": "Analysis complete \u2014 reviewing key signal drivers against consensus.",
   "blind_spot_narrative": "Market Blind Spot analysis detected notable signal divergences for this company. The Blind Spot Score suggests the market may be mispricing key fundamentals that academic research has shown to predict future returns. Further analysis is recommended to understand the specific drivers.",
   "conventional_narrative": "Based on standard valuation metrics, this company presents a mixed picture. Revenue growth and P/E ratios suggest the market has priced in near-term expectations, though investors should monitor upcoming earnings for confirmation of current trends.",
-  "analysis_time_seconds": 0.31
+  "analysis_time_seconds": 0.25
 }
