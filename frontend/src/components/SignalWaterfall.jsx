@@ -140,7 +140,7 @@ export default function SignalWaterfall({ signals, intangiblesWarning }) {
                 fillOpacity={0.85}
               />
             ))}
-            <LabelList data={data} intangiblesWarning={intangiblesWarning} content={<WarningLabel />} />
+            <LabelList content={(props) => <WarningLabel {...props} data={data} intangiblesWarning={intangiblesWarning} />} />
           </Bar>
         </BarChart>
       </ResponsiveContainer>
