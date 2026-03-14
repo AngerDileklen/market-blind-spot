@@ -5,12 +5,6 @@ import SignalWaterfall from './components/SignalWaterfall';
 import ComparisonPanel from './components/ComparisonPanel';
 import { analyzeStock } from './api';
 
-const DEMO_TICKER_TAPE = [
-  { ticker: 'NFLX', score: 38.2 },
-  { ticker: 'BRK-B', score: 71.6 },
-  { ticker: 'MSFT', score: 52.4 },
-];
-
 export default function App() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -31,9 +25,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[radial-gradient(circle_at_top,rgba(0,212,170,0.08),transparent_35%)]">
       {/* Header */}
-      <header className="border-b border-white/5 bg-dark-800/60 backdrop-blur-md sticky top-0 z-50">
+      <header className="border-b border-white/5 bg-dark-800/70 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-green to-emerald-600 flex items-center justify-center">
@@ -48,32 +42,22 @@ export default function App() {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2 text-xs text-gray-600">
-            <span className="px-2 py-1 rounded bg-dark-700 font-mono">Gemini 3</span>
-            <span className="px-2 py-1 rounded bg-dark-700">Paris Hackathon 2026</span>
-          </div>
-        </div>
-        <div className="ticker-tape-wrap border-t border-white/5">
-          <div className="ticker-tape-track">
-            {[...DEMO_TICKER_TAPE, ...DEMO_TICKER_TAPE].map((item, idx) => (
-              <div key={`${item.ticker}-${idx}`} className="ticker-chip">
-                <span className="ticker-symbol">{item.ticker}</span>
-                <span className="ticker-score">{item.score.toFixed(1)}</span>
-              </div>
-            ))}
+          <div className="flex items-center gap-2 text-xs text-gray-500">
+            <span className="px-2.5 py-1 rounded-full bg-dark-700 border border-white/10 font-mono">Gemini 3</span>
+            <span className="px-2.5 py-1 rounded-full bg-dark-700 border border-white/10">Paris Hackathon 2026</span>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-6xl mx-auto w-full px-6 py-10">
+      <main className="flex-1 max-w-6xl mx-auto w-full px-6 py-10 md:py-12">
         {/* Hero + Input */}
-        <section className="text-center mb-12">
+        <section className="text-center mb-12 md:mb-14">
           <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-3 tracking-tight">
             What is the market
             <span className="text-accent-green"> missing</span>?
           </h2>
-          <p className="text-gray-400 text-lg mb-8 max-w-xl mx-auto">
+          <p className="text-gray-400 text-base md:text-lg mb-8 max-w-2xl mx-auto">
             6 academic signals that predict returns but are systematically
             ignored by traditional analysis — powered by Gemini AI.
           </p>
@@ -82,10 +66,10 @@ export default function App() {
 
         {/* Loading State */}
         {loading && (
-          <div className="flex flex-col items-center gap-4 py-16 animate-fade-in">
+          <div className="flex flex-col items-center gap-4 py-16 animate-fade-in" aria-live="polite">
             <div className="loader-ring"></div>
-            <p className="text-gray-400">
-              Running signal analysis…
+            <p className="text-gray-300 loading-dots">
+              Running signal analysis
             </p>
             <p className="text-xs text-gray-600">
               Fetching financials → Computing signals → Generating narrative
@@ -95,7 +79,7 @@ export default function App() {
 
         {/* Error State */}
         {error && !loading && (
-          <div className="glass-card p-6 text-center animate-fade-in max-w-lg mx-auto">
+          <div className="glass-card p-6 text-center animate-fade-in max-w-lg mx-auto border border-red-500/35 shadow-[0_0_30px_rgba(255,77,77,0.12)]" aria-live="assertive">
             <p className="text-accent-red text-lg font-semibold mb-2">Analysis Failed</p>
             <p className="text-gray-400">{error}</p>
           </div>
@@ -105,7 +89,7 @@ export default function App() {
         {result && !loading && (
           <div className="animate-slide-up space-y-8">
             {/* Company Header */}
-            <div className="text-center">
+            <div className="text-center glass-card p-5 md:p-6">
               <h3 className="text-2xl font-bold text-white">
                 {result.company_name}
                 <span className="text-gray-500 font-normal ml-2 text-lg">
@@ -114,8 +98,8 @@ export default function App() {
               </h3>
               <p className="text-gray-500 text-sm mt-1">{result.sector}</p>
               {result.financial_sector_warning && (
-                <div className="inline-block mt-2 px-3 py-1 rounded-full bg-amber-900/30 border border-amber-500/30 text-amber-400 text-xs">
-                  ⚠️ Financial sector — leverage/profitability signals may be less reliable
+                <div className="inline-flex mt-2 px-3 py-1 rounded-full bg-amber-900/30 border border-amber-500/30 text-amber-300 text-xs font-medium">
+                  Financial sector warning — leverage/profitability signals may be less reliable
                 </div>
               )}
             </div>

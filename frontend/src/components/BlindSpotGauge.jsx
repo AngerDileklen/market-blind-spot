@@ -1,7 +1,25 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function BlindSpotGauge({ score, label, color, sector, peerComparison, sectorAdjustedWeights }) {
   const canvasRef = useRef(null);
+  const [gaugeSize, setGaugeSize] = useState(280);
+
+  useEffect(() => {
+    const syncGaugeSize = () => {
+      const width = window.innerWidth;
+      if (width < 420) {
+        setGaugeSize(228);
+      } else if (width < 768) {
+        setGaugeSize(248);
+      } else {
+        setGaugeSize(280);
+      }
+    };
+
+    syncGaugeSize();
+    window.addEventListener('resize', syncGaugeSize);
+    return () => window.removeEventListener('resize', syncGaugeSize);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -9,7 +27,7 @@ export default function BlindSpotGauge({ score, label, color, sector, peerCompar
 
     const ctx = canvas.getContext('2d');
     const dpr = window.devicePixelRatio || 1;
-    const size = 280;
+    const size = gaugeSize;
     canvas.width = size * dpr;
     canvas.height = (size * 0.7) * dpr;
     canvas.style.width = `${size}px`;
@@ -62,22 +80,22 @@ export default function BlindSpotGauge({ score, label, color, sector, peerCompar
 
     // Score text
     ctx.fillStyle = '#ffffff';
-    ctx.font = '700 42px Inter, system-ui';
+    ctx.font = `700 ${size < 240 ? 34 : 42}px Inter, system-ui`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(score.toFixed(1), cx, cy - 20);
 
     // Label text
     ctx.fillStyle = color || '#00d4aa';
-    ctx.font = '500 13px Inter, system-ui';
+    ctx.font = `500 ${size < 240 ? 11 : 13}px Inter, system-ui`;
     ctx.fillText(label, cx, cy + 12);
 
     // "/ 100" text
     ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-    ctx.font = '400 14px Inter, system-ui';
+    ctx.font = `400 ${size < 240 ? 12 : 14}px Inter, system-ui`;
     ctx.fillText('/ 100', cx, cy + 34);
 
-  }, [score, label, color, sector]);
+  }, [score, label, color, sector, gaugeSize]);
 
   const peerLine = peerComparison
     ? `Top ${peerComparison.percentile_rank}% of ${peerComparison.sector || sector || 'Market'} · ${peerComparison.peer_count} peers`
@@ -102,12 +120,12 @@ export default function BlindSpotGauge({ score, label, color, sector, peerCompar
         style={{ '--glow-color': `${color}40` }}
       />
       {peerLine && (
-        <p className="text-xs text-gray-500 -mt-1">{peerLine}</p>
+        <p className="text-xs text-gray-500 -mt-1 text-center px-2">{peerLine}</p>
       )}
       {sectorAdjustedWeights && (
         <p className="text-xs text-accent-green/90 mt-2">Using technology-adjusted weights</p>
       )}
-      <p className="text-xs text-gray-500 mt-2 text-center max-w-[300px]">{historicalLine}</p>
+      <p className="text-xs text-gray-400 mt-2 text-center max-w-[320px] leading-relaxed px-2">{historicalLine}</p>
     </div>
   );
 }

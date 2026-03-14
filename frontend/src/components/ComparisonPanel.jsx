@@ -9,12 +9,12 @@ export default function ComparisonPanel({ headline, blindSpotNarrative, conventi
         <NarrativePanel
           narrative={conventionalNarrative}
           title="Conventional Wall Street View"
-          icon="📊"
+          badge="WS"
           accentColor="#ffb347"
         />
         <div className="flex lg:flex-col items-center justify-center gap-2 px-1">
           <div className="h-px w-10 lg:w-px lg:h-16 bg-white/10" />
-          <span className="text-xs tracking-widest text-gray-600">VS</span>
+          <span className="text-xs tracking-[0.2em] text-gray-500 px-2 py-1 rounded-full border border-white/10 bg-white/5">VS</span>
           <div className="h-px w-10 lg:w-px lg:h-16 bg-white/10" />
         </div>
         <div className="animate-fade-in" style={{ animationDelay: '1.5s' }}>
@@ -22,7 +22,7 @@ export default function ComparisonPanel({ headline, blindSpotNarrative, conventi
             headline={headline}
             narrative={blindSpotNarrative}
             title="Blind Spot Analysis"
-            icon="🔍"
+            badge="BS"
             accentColor="#00d4aa"
           />
         </div>

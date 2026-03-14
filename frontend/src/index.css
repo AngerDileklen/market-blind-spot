@@ -15,6 +15,32 @@ body {
   background: #0a0a0f;
   color: #e5e7eb;
   min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+button,
+input,
+textarea,
+select {
+  transition: border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease, color 200ms ease, opacity 200ms ease;
+}
+
+:focus-visible {
+  outline: 2px solid rgba(0, 212, 170, 0.8);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ===== Glassmorphism Card ===== */
@@ -24,6 +50,7 @@ body {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
 }
 
 .glass-card-hover:hover {
@@ -39,7 +66,8 @@ body {
 /* ===== Narrative Panel ===== */
 .narrative-text p {
   margin-bottom: 1rem;
-  line-height: 1.8;
+  line-height: 1.7;
+  max-width: 75ch;
 }
 
 .narrative-text p:last-child {
@@ -87,6 +115,20 @@ body {
   animation: spin-gradient 0.8s linear infinite;
 }
 
+.loading-dots::after {
+  content: '...';
+  display: inline-block;
+  width: 1.2em;
+  animation: loadingDots 1.2s steps(4, end) infinite;
+}
+
+@keyframes loadingDots {
+  0% { content: ''; }
+  33% { content: '.'; }
+  66% { content: '..'; }
+  100% { content: '...'; }
+}
+
 /* ===== Ticker Input Glow ===== */
 .input-glow:focus-within {
   box-shadow: 0 0 0 2px rgba(0, 212, 170, 0.3), 0 0 20px rgba(0, 212, 170, 0.1);
@@ -132,45 +174,14 @@ body {
   background: rgba(255, 255, 255, 0.06);
 }
 
-/* ===== Ticker Tape ===== */
-@keyframes tickerScroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-.ticker-tape-wrap {
-  overflow: hidden;
-  padding: 0.45rem 0;
-}
-
-.ticker-tape-track {
-  display: flex;
-  align-items: center;
-  width: max-content;
-  animation: tickerScroll 18s linear infinite;
-}
-
-.ticker-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin-right: 1.25rem;
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.ticker-symbol {
-  color: #9ca3af;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
-
-.ticker-score {
-  color: #00d4aa;
-  font-size: 0.72rem;
-  font-weight: 700;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

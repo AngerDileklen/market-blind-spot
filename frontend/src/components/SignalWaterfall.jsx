@@ -9,9 +9,10 @@ import {
   ReferenceLine,
   LabelList,
 } from 'recharts';
+import { useEffect, useState } from 'react';
 
 const BadgeLabel = (props) => {
-  const { x, y, width, index, data, intangiblesWarning } = props;
+  const { x, y, width, index, data, intangiblesWarning, compact } = props;
   const d = data[index];
   if (!d) return null;
 
@@ -22,8 +23,10 @@ const BadgeLabel = (props) => {
     return null;
   }
 
-  let badgeX = x + Math.max(width, 0) + 8;
+  const badgeX = x + Math.max(width, 0) + 8;
   const badgeY = y - 8;
+  const lowDataX = badgeX + (showIntangibles ? (compact ? 0 : 94) : 0);
+  const lowDataY = badgeY + (showIntangibles && compact ? 18 : 0);
 
   return (
     <g>
@@ -37,8 +40,8 @@ const BadgeLabel = (props) => {
       )}
       {showLowData && (
         <>
-          <rect x={badgeX + (showIntangibles ? 94 : 0)} y={badgeY} width={62} height={16} rx={8} fill="#6b7280" fillOpacity={0.2} stroke="#9ca3af" strokeOpacity={0.5} />
-          <text x={badgeX + (showIntangibles ? 125 : 31)} y={badgeY + 11} textAnchor="middle" fill="#d1d5db" fontSize={10} fontWeight={600}>
+          <rect x={lowDataX} y={lowDataY} width={62} height={16} rx={8} fill="#6b7280" fillOpacity={0.2} stroke="#9ca3af" strokeOpacity={0.5} />
+          <text x={lowDataX + 31} y={lowDataY + 11} textAnchor="middle" fill="#d1d5db" fontSize={10} fontWeight={600}>
             Low data
           </text>
         </>
@@ -87,7 +90,7 @@ const CustomTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="glass-card p-3 text-sm">
+    <div className="glass-card p-3 text-sm max-w-[260px]">
       <p className="font-semibold text-white">{d.name}</p>
       <p className="text-gray-400 mt-1">{d.description}</p>
       <p className="mt-1">
@@ -131,6 +134,15 @@ const AnimatedBar = (props) => {
 };
 
 export default function SignalWaterfall({ signals, intangiblesWarning }) {
+  const [compact, setCompact] = useState(false);
+
+  useEffect(() => {
+    const syncCompact = () => setCompact(window.innerWidth < 980);
+    syncCompact();
+    window.addEventListener('resize', syncCompact);
+    return () => window.removeEventListener('resize', syncCompact);
+  }, []);
+
   if (!signals?.length) return null;
 
   const data = signals.map((s) => ({
@@ -153,7 +165,7 @@ export default function SignalWaterfall({ signals, intangiblesWarning }) {
         <BarChart
           data={data}
           layout="vertical"
-          margin={{ top: 0, right: 200, left: 10, bottom: 0 }}
+          margin={{ top: 0, right: compact ? 132 : 200, left: 10, bottom: 0 }}
         >
           <XAxis
             type="number"
@@ -167,9 +179,9 @@ export default function SignalWaterfall({ signals, intangiblesWarning }) {
             tick={<CustomYAxisTick data={data} />}
             axisLine={false}
             tickLine={false}
-            width={150}
+            width={compact ? 132 : 150}
           />
-          <Tooltip content={<CustomTooltip />} cursor={false} />
+          <Tooltip content={<CustomTooltip />} cursor={false} allowEscapeViewBox={{ x: false, y: false }} wrapperStyle={{ zIndex: 40 }} />
           <ReferenceLine x={0} stroke="#232340" />
           <Bar dataKey="contribution" radius={[0, 4, 4, 0]} barSize={24} shape={<AnimatedBar />}>
             {data.map((d, i) => (
@@ -184,7 +196,7 @@ export default function SignalWaterfall({ signals, intangiblesWarning }) {
                 }
               />
             ))}
-            <LabelList content={(props) => <BadgeLabel {...props} data={data} intangiblesWarning={intangiblesWarning} />} />
+            <LabelList content={(props) => <BadgeLabel {...props} data={data} intangiblesWarning={intangiblesWarning} compact={compact} />} />
           </Bar>
         </BarChart>
       </ResponsiveContainer>

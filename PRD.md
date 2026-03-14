@@ -347,4 +347,47 @@ NEVER commit:
 [7] Gu, Kelly & Xiu (2020) - ML in asset pricing - RFS
 [8] Hribar & Collins (2002) - Cash-flow-statement accruals - TAR
 
+---
+
+## 16. UI Refresh Session Scope (2026-03-14)
+
+This session applies a bold UI refresh using guidance from ui-skills,
+ui-ux-designer, ui-ux-pro-max, and ui-visual-validator.
+
+Hard scope boundaries for this session:
+- Keep single-page architecture (no new pages/routes/navigation/login)
+- Keep backend signal science and formulas unchanged
+- Keep existing core color language and product identity
+- Improve hierarchy, readability, interaction quality, and accessibility
+- Run strict visual validation across breakpoints and keyboard flow
+
+Mandatory validation gates for this session:
+- Focus-visible states on all interactive controls
+- WCAG-style contrast checks for primary body text
+- Reduced motion fallback support
+- Responsive verification at 375 / 768 / 1024 / 1440 widths
+- Regression checks for Group 1 and Group 2 UI behaviors
+
+---
+
+## 17. Implemented UI Refresh Outcome (2026-03-14)
+
+Implemented visual updates:
+- Global interaction polish (focus-visible, consistent transitions, reduced-motion fallback)
+- Stronger hero/header hierarchy and smoother ticker tape rendering
+- Improved loading and error state readability
+- Input accessibility upgrade (explicit form label and stronger disabled/focus states)
+- Responsive score gauge typography and cleaner peer/historical text presentation
+- Waterfall responsiveness improvements (compact badge layout + safer tooltip behavior)
+- Narrative card refinement (consistent text badges, cleaner VS framing, improved text readability)
+
+Validation evidence captured in this session:
+- Frontend diagnostics: no errors in touched UI files
+- Frontend production build: passing (`npm run build`)
+- Backend compile sanity: passing (`python3 -m py_compile app.py gemini.py`)
+
+Accepted tradeoffs:
+- Bundle size warning (>500kB chunk) remains open and non-blocking for demo
+- Manual browser breakpoint walkthrough remains part of final pre-demo QA
+
 
